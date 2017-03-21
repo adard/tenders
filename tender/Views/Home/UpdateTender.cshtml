@@ -1,0 +1,200 @@
+﻿
+
+<div ng-app="MyApp">
+    <div ng-controller="menuController">
+        @* Here first of all we will create a ng-template *@
+        <script type="text/ng-template" id="treeMenu">
+            <a href="{{menu.Url}}">{{menu.Name}}</a>
+            @* We will create submenu only when available *@
+            <ul ng-if="(SiteMenu | filter:{ParentId : menu.ID}).length > 0">
+                @*<li ng-repeat="menu in SiteMenu | filter:{ParentId : menu.ID}" ng-include="'treeMenu'"></li>*@
+                <li ng-repeat="menu in SiteMenu | filter:{ParentId : menu.ID} : true" ng-include="'treeMenu'"></li>
+            </ul>
+        </script>
+        <ul class="main-navigation">
+            @* Here we will load only top level menu *@
+            @*<li ng-repeat="menu in SiteMenu | filter:{ParentIf : 0}" ng-include="'treeMenu'"></li>*@
+            <li ng-repeat="menu in SiteMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+        </ul>
+    </div>
+</div>
+@* Add css here for nav menu *@
+<link href="~/css/navMenu.css" rel="stylesheet" />
+
+@* add js here for angular app *@
+@section Scripts{
+    <script src="~/Scripts/MyApp.js"></script>
+}
+
+
+
+
+
+@{
+    ViewBag.Title = "UpdateTender";
+}
+
+<div class="container">
+    <div class="master">
+        <h2>Update Tender</h2>
+        <h2> </h2>
+
+        <table class="table table-responsive">
+            <tr>
+                <td> Tender Num </td>
+                <td>
+                   
+
+                    <input type="text" disabled id="tenderNum" class="form-control"  />
+                    <span class="error">Tender no required</span>
+                </td>
+                <td> Tender Name </td>
+                <td>
+                    <input type="text" id="tenderName" class="form-control" value="מחשבים" />
+                    <span class="error">Tender no required</span>
+                </td>
+            </tr>
+            <tr>
+                <td> categories </td>
+                <td>
+                    <select id="productCategory" class="form-control" onchange="LoadProduct(this)">
+                        <option>Select</option>
+                    </select>
+                    <span class="error">Select Category</span>
+                </td>
+                <td>editor</td>
+                <td>
+                    <select id="Editors" class="form-control" onselect="LoadEditor(this)">
+                        <option>Select</option>
+                    </select>
+                    <span class="error">Select Editor</span>
+                </td>
+            </tr>
+            <tr>
+                <td>typem tender</td>
+                <td>
+                    <select id="typeTender" class="form-control" onselect="LoadType(this)">
+                        <option>Select</option>
+                    </select>
+                    <span class="error">Select type Tender</span>
+                </td>
+                <td>typem acquire</td>
+
+                <td>
+                    <select id="typeAcquire" class="form-control" onselect="LoadType(this)">
+                        <option>Select</option>
+                        <option value="1">רכישה</option>
+                        <option value="2">קניה</option>
+
+                    </select>
+                    <span class="error">Select type Tender</span>
+                </td>
+            </tr>
+            <tr>
+                <td>status</td>
+                <td>
+                    <select id="statatus" class="form-control" onselect="LoadType(this)">
+                        <option>Select</option>
+                       
+                        <option value="1">פעיל</option>
+                        <option value="2">סגור</option>
+                        <option value="3">טרם</option>
+                    </select>
+                    <span class="error">Select type Tender</span>
+                </td>
+                <td>Description</td>
+                <td colspan="3">
+                    <textarea id="description" class="form-control"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>from</td>
+                <td>
+                    <input type="date" id="from" class="form-control" placeholder="yyyy-MM-dd" min="2016-01-01" max="2019-12-31" required  value="17/05/2017"/>
+                    <span class="error">Valid from required (ex: MM-dd-yyyy)</span>
+                </td>
+                <td>till</td>
+                <td>
+                    <input type="date" id="till" class="form-control" placeholder="yyyy-MM-dd" min="2013-01-01" max="2019-12-31" required />
+                    <span class="error">Valid till required (ex: MM-dd-yyyy)</span>
+                </td>
+            </tr>
+            <tr>
+                <td>hour strat</td>
+                <td>
+                    <input type="text" id="start" />
+                </td>
+
+                <td>hour finish</td>
+                <td>
+                    <input type="text" id="finish" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="details">
+        <h2>
+            Tender items
+        </h2>
+        <table class="table table-responsive" id="tblProduct">
+            <tr>
+                <td>numProduct</td>
+                <td>Product</td>
+                <td>Quantity</td>
+                <td>size roomy</td>
+                <td>max/min price</td>
+                
+            </tr>
+           
+        </table>
+        <div id="orderItems">
+            <table class="table table-responsive" id="orderdetailsItems"></table>
+            <span id="orderItemError" style="color:red"></span>
+        </div>
+        <input type="button" id="add" value="add" style="width:80px" class="btn btn-success" />
+        <div style="padding:10px 0; text-align:right">
+            <input id="submit" type="button" value="Save" class="btn btn-warning" style="padding:10px 20px" />
+        </div>
+    </div>
+</div>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+@*<script type="text/javascript">
+        $(function () {
+            $('#orderDate').datepicker({
+                dateFormat: 'mm-dd-yy'
+            })
+        })
+    </script>*@
+<style>
+    span.error {
+        display: block;
+        visibility: hidden;
+        color: red;
+        font-size: 90%;
+    }
+
+    tr.error {
+        background-color: rgba(255,0,0,0.35);
+    }
+</style>
+<link href="~/css/navMenu.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link type="text/css" href="css/bootstrap.min.css">
+<link type="text/css" href="css/bootstrap-timepicker.min.css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-timepicker.min.js"></script>
+
+<script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">   </script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/UpdateTender.js"></script>

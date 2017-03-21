@@ -1,0 +1,40 @@
+﻿
+
+@{
+    ViewBag.Title = "suggestion";
+
+}
+
+<h2>suggestion</h2>
+<script src="~/Scripts/jquery-2.2.4.min.js"></script>
+<script src="~/Scripts/suggestion.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/CSS/jquery-ui.css" rel="stylesheet" />
+<div class="details">
+    <h2>
+        Tender items
+    </h2>
+    <label id="numTender">2</label>
+    <table class="table table-responsive" id="tbldtender">
+        <tr>
+            <td><h1>num tender</h1></td>
+            <td><h1>name tender</h1></td>
+        </tr>
+    </table>
+    <table class="table table-responsive" id="tblsuggest">
+        <tr>
+            <td>numProduct</td>
+            <td>Product</td>
+            <td>Quantity</td>
+            <td>suggestion price</td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+    <div id="orderItems">
+        <table class="table table-responsive" id="orderdetailsItems"></table>
+        <span id="orderItemError" style="color:red"></span>
+    </div>
+    <div style="padding:10px 0; text-align:right">
+        <input id="submit" type="button" value="Save Order" class="btn btn-warning" style="padding:10px 20px" />
+    </div>
+</div>

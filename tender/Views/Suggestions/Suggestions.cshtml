@@ -1,0 +1,70 @@
+﻿@model List<tender.Models.Tenders>
+
+
+@{
+    ViewBag.Title = "Suggestions";
+}
+
+
+@* Html code for show nav menu here, for mak the application simple
+    I will add ngapp and ngcontroller here *@
+<div ng-app="appClient">
+    <div ng-controller="menuController">
+        @* Here first of all we will create a ng-template *@
+        <script type="text/ng-template" id="treeMenu">
+            <a href="{{menu.Url}}">{{menu.Name}}</a>
+            @* We will create submenu only when available *@
+            <ul ng-if="(ClientMenu | filter:{ParentId : menu.ID}).length > 0">
+                @*<li ng-repeat="menu in ClientMenu | filter:{ParentId : menu.ID}" ng-include="'treeMenu'"></li>*@
+                <li ng-repeat="menu in ClientMenu | filter:{ParentId : menu.ID} : true" ng-include="'treeMenu'"></li>
+            </ul>
+        </script>
+        <ul class="main-navigation">
+            @* Here we will load only top level menu *@
+            @*<li ng-repeat="menu in ClientMenu | filter:{ParentId : 0}" ng-include="'treeMenu'"></li>*@
+            <li ng-repeat="menu in ClientMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+        </ul>
+    </div>
+</div>
+@* Add css here for nav menu *@
+<link href="~/css/ClientMenu.css" rel="stylesheet" />
+
+@* add js here for angular app *@
+@section Scripts{
+    <script src="~/Scripts/appClient.js"></script>
+}
+
+<link href="~/css/navMenu.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-2.2.4.min.js"></script>
+<script src="~/Scripts/Suggestions.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<div class="details">
+    <h2>פירוט המכרז</h2>
+
+    <label id="numTender"></label>
+    <table class="table table-responsive" id="tbldtender">
+        <tr class="mycontainer" id="mainrow">
+        <tr>
+            @*<td><h1>num tender</h1></td>
+                <td><h1>name tender</h1></td>*@
+        </tr>
+    </table>
+    <table class="table table-responsive" id="tblsuggest">
+        <tr class="mycontainer" id="mainrow">
+            <td> numProduct</td>
+            <td>Product</td>
+            <td>Quantity</td>
+            <td> suggestion price</td>
+            <td>&nbsp;</td>
+        </tr>
+
+    </table>
+    <div id="orderItems">
+        <table class="table table-responsive" id="orderdetailsItems"></table>
+        <span id="orderItemError" style="color:red"></span>
+    </div>
+    <div style="padding:10px 0; text-align:right">
+        <input id="submit" type="button" value="Save" class="btn btn-warning" style="padding:10px 20px" onclick="clickAndDisable()">
+    </div>
+</div>

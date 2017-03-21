@@ -1,0 +1,123 @@
+﻿@model List<tender.Models.Tenders >
+<div ng-app="MyApp">
+    <div ng-controller="menuController">
+        @* Here first of all we will create a ng-template *@
+        <script type="text/ng-template" id="treeMenu">
+            <a href="{{menu.Url}}">{{menu.Name}}</a>
+            @* We will create submenu only when available *@
+            <ul ng-if="(SiteMenu | filter:{ParentId : menu.ID}).length > 0">
+                @*<li ng-repeat="menu in SiteMenu | filter:{ParentId : menu.ID}" ng-include="'treeMenu'"></li>*@
+                <li ng-repeat="menu in SiteMenu | filter:{ParentId : menu.ID} : true" ng-include="'treeMenu'"></li>
+            </ul>
+        </script>
+        <ul class="main-navigation">
+            @* Here we will load only top level menu *@
+            @*<li ng-repeat="menu in SiteMenu | filter:{ParentIf : 0}" ng-include="'treeMenu'"></li>*@
+            <li ng-repeat="menu in SiteMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+        </ul>
+    </div>
+</div>
+@* Add css here for nav menu *@
+<link href="~/css/navMenu.css" rel="stylesheet" />
+
+@* add js here for angular app *@
+@section Scripts{
+    <script src="~/Scripts/MyApp.js"></script>
+}
+@{
+    ViewBag.Title = "About";
+}
+@{
+    ViewBag.Title = "List of users";
+    var grid = new WebGrid(source: Model, canPage: true, rowsPerPage: 10);
+    grid.Pager(WebGridPagerModes.All);
+}
+<link href="~/css/table.css" rel="stylesheet" />
+
+<h2>List of Users</h2>
+
+<style type="text/css">
+    /*Here we will add css for style webgrid*/
+    .webgrid-table {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        font-size: 1.2em;
+        width: 100%;
+        display: table;
+        border-collapse: separate;
+        border: solid 1px #98BF21;
+        background-color: white;
+    }
+
+        .webgrid-table td, th {
+            border: 1px solid #98BF21;
+            padding: 3px 7px 2px;
+        }
+
+    .webgrid-header {
+        background-color: #A7C942;
+        color: #FFFFFF;
+        padding-bottom: 4px;
+        padding-top: 5px;
+        text-align: left;
+    }
+
+    .webgrid-footer {
+    }
+
+    .webgrid-row-style {
+        padding: 3px 7px 2px;
+    }
+
+    .webgrid-alternating-row {
+        background-color: #EAF2D3;
+        padding: 3px 7px 2px;
+    }
+</style>
+
+<div id="content">
+    @grid.GetHtml(
+                tableStyle: "webgrid-table",
+                headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                alternatingRowStyle: "webgrid-alternating-row",
+                rowStyle: "webgrid-row-style",
+                columns: grid.Columns(
+                    //here i will add column for serial no
+                    grid.Column(header: "Serial No", format:@<text><div>@(item.WebGrid.Rows.IndexOf(item) + 1)</div></text>),
+                    grid.Column(columnName: "numTender", header: "numTEnder"),
+                    grid.Column(columnName: "name", header: "name"),
+                     grid.Column(columnName: "numType", header: "numType")
+                    //  grid.Column(header: "Email", format:@<text><a href="mailto:@item.EmailID">@item.EmailID</a></text>),
+                    // grid.Column(header: "Is Active?", format:@<text><input type="checkbox" checked="@item.isActive" disabled="disabled" /></text>)
+                    ))
+
+
+</div>
+<table>
+    <tr></tr>
+    <tr>
+        <a href="/Suggestions/Suggestions?numtender=2">
+            <img src="~/Images/next.jpg" width="50" height="50" />
+        </a>
+    </tr>
+</table>
+</div>
+
+
+
+<link href="~/css/navMenu.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="~/Scripts/myScripts.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link type="text/css" href="css/bootstrap.min.css">
+<link type="text/css" href="css/bootstrap-timepicker.min.css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-timepicker.min.js"></script>
+
+<script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">   </script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/myScripts.js"></script>

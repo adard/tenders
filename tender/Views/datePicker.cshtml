@@ -1,0 +1,15 @@
+﻿@{ string id = ViewData["id"].ToString();
+    <link href="/css/bootstrap-combined.min.css" rel="stylesheet" />
+    <link media="screen" href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <div id=@id class="input-append">
+        <input id="start" type="text" data-format="hh:mm:ss"></input>
+        <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span>
+    </div>
+    <script type="text/javascript"> $('#@id').datetimepicker({pickDate:false});</script>
+
+
+}
+

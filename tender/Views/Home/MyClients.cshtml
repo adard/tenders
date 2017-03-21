@@ -1,0 +1,186 @@
+﻿@model List<tender.Models.Contestants>
+
+@{
+    ViewBag.Title = "MyClients";
+}
+
+
+
+<div ng-app="MyApp">
+    <div ng-controller="menuController">
+        @* Here first of all we will create a ng-template *@
+        <script type="text/ng-template" id="treeMenu">
+            <a href="{{menu.Url}}">{{menu.Name}}</a>
+            @* We will create submenu only when available *@
+            <ul ng-if="(SiteMenu | filter:{ParentId : menu.ID}).length > 0">
+                @*<li ng-repeat="menu in SiteMenu | filter:{ParentId : menu.ID}" ng-include="'treeMenu'"></li>*@
+                <li ng-repeat="menu in SiteMenu | filter:{ParentId : menu.ID} : true" ng-include="'treeMenu'"></li>
+            </ul>
+        </script>
+        <ul class="main-navigation">
+            @* Here we will load only top level menu *@
+            @*<li ng-repeat="menu in SiteMenu | filter:{ParentIf : 0}" ng-include="'treeMenu'"></li>*@
+            <li ng-repeat="menu in SiteMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+        </ul>
+    </div>
+</div>
+@* Add css here for nav menu *@
+<link href="~/css/navMenu.css" rel="stylesheet" />
+
+@* add js here for angular app *@
+@section Scripts{
+    <script src="~/Scripts/MyApp.js"></script>
+}
+
+<h2>My Clients</h2>
+<div>
+    <table class="table table-responsive" id="t01">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Name's Compagny     </th>
+            <th>Seniority</th>
+            <th>Adress</th>
+            <th>Phone</th>
+            <th>Tel Office</th>
+            <th>Email</th>
+            <th>Area</th>
+        </tr>
+
+        @foreach (var item in Model)
+            {
+               
+                <tr class="mycontainer" id="mainrow">
+                    <td>
+                        @item.nameCont
+                    </td>
+                    <td>
+                        @item.familyCont
+                    </td>
+                     <td>
+                        @item.nameCompanyCont
+                    </td>
+                    <td>
+                        @item.Seniority
+
+
+                    </td>
+                    <td>
+                        @item.addressCont
+                    </td>
+                    <td>
+                        @item.phoneCont
+                    </td>
+                    <td>
+                        @item.tellOfiiceCont
+                    </td>
+
+                    <td>
+                        @item.emailCont
+                    </td>
+
+                    <td>
+                        @item.area
+                    </td>
+
+                </tr>
+                                
+                            }
+    </table>
+
+</div>
+<link href="~/css/table.css" rel="stylesheet" />
+
+@*<style>
+        body {
+            font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            color: #4f6b72;
+            background: #E6EAE9;
+        }
+
+        a {
+            color: #c75f3e;
+        }
+
+        #mytable {
+            width: 700px;
+            padding: 0;
+            margin: 0;
+        }
+
+        caption {
+            padding: 0 0 5px 0;
+            width: 700px;
+            font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            text-align: right;
+        }
+
+        th {
+            font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            color: #4f6b72;
+            border-right: 1px solid #C1DAD7;
+            border-bottom: 1px solid #C1DAD7;
+            border-top: 1px solid #C1DAD7;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 6px 6px 6px 12px;
+            background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+        }
+
+            th.nobg {
+                border-top: 0;
+                border-left: 0;
+                border-right: 1px solid #C1DAD7;
+                background: none;
+            }
+
+        td {
+            border-right: 1px solid #C1DAD7;
+            border-bottom: 1px solid #C1DAD7;
+            background: #fff;
+            padding: 6px 6px 6px 12px;
+            color: #4f6b72;
+        }
+
+
+            td.alt {
+                background: #F5FAFA;
+                color: #797268;
+            }
+
+        th.spec {
+            border-left: 1px solid #C1DAD7;
+            border-top: 0;
+            background: #fff url(images/bullet1.gif) no-repeat;
+            font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        }
+
+        th.specalt {
+            border-left: 1px solid #C1DAD7;
+            border-top: 0;
+            background: #f5fafa url(images/bullet2.gif) no-repeat;
+            font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            color: #797268;
+        }
+    </style>
+    <link href="~/css/navMenu.css" rel="stylesheet" />*@
+
+<link href="~/css/navMenu.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="~/Scripts/myScripts.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link type="text/css" href="css/bootstrap.min.css">
+<link type="text/css" href="css/bootstrap-timepicker.min.css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-timepicker.min.js"></script>
+
+<script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">   </script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/myScripts.js"></script>
+<script src="~/Scripts/UpdateTender.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />

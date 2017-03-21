@@ -1,0 +1,120 @@
+﻿@*@{ string id = ViewData["id"].ToString();
+    <link href="/css/bootstrap-combined.min.css" rel="stylesheet" />
+    <link media="screen" href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <div  class="input-append">
+        <input id=@id type="text" data-format="hh:mm:ss"></input>
+        <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span>
+    </div>
+    <script type="text/javascript"> $('#@id').datetimepicker({pickDate:false});</script>
+
+
+}*@
+
+
+    <style>
+        /*body {
+            width: 80%;
+            position: relative;
+        }*/
+
+        #timepicker {
+            width: 20%;
+            margin: 30px 40%;
+            margin-bottom: 0;
+            /*position: absolute;*/
+        }
+
+        .timepicker_wrap {
+                top: 5px;
+    left: 67px;
+    display: none;
+    position: relative;
+    height: 142px;
+    width:275px;
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 8px 5px 8px 0px;
+        }
+
+        .hour, .min, .meridian, .sec {
+            float: left;
+            width: 60px;
+            margin: 0 10px;
+        }
+
+        .timepicker_wrap .btn {
+            background: url('../Images/arrow.png') no-repeat;
+            cursor: pointer;
+            padding: 17px;
+            border: 2px solid hsl(0, 0%, 0%);
+            width: 28%;
+            height: 3px;
+            margin: auto;
+            border-radius: 10px;
+        }
+
+        .timepicker_wrap .prev {
+            background-position: 50% -50%;
+        }
+
+        .timepicker_wrap .next {
+            background-position: 50% 150%;
+        }
+
+        .timepicker_wrap .ti_tx {
+            margin: 10px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .timepicker_wrap .in_txt {
+            border-radius: 10px;
+            width: 70%;
+            float: none;
+            text-align: center;
+            /*padding-bottom: 8px;*/
+            border: 2px solid hsl(0, 0%, 0%);
+            font-family: arial;
+            font-weight: 700;
+            font-size: 21px;
+        }
+
+        .timepicker_wrap > .hour > .ti_tx:after {
+            content: '';
+            font-size: 1em;
+            padding-left: 0.2em;
+            font-weight: 700;
+        }
+
+        .timepicker_wrap > .min > .ti_tx:after {
+            content: '';
+            font-size: 1em;
+            padding-left: 0.2em;
+            font-weight: 700;
+        }
+
+        .timepicker_wrap > .sec > .ti_tx:after {
+            content: '';
+            font-size: 1em;
+            padding-left: 0.2em;
+            font-weight: 700;
+        }
+
+        .timepicker_wrap > .meridian > .ti_tx:after {
+            content: '';
+            font-size: 1em;
+            padding-left: 0.2em;
+            font-weight: 700;
+        }
+    </style>
+@{ string id = ViewData["id"].ToString();
+        <div class="jquery-script-ads" style="margin-bottom:30px">
+            <input type="text" id=@id class="timepicker" name="open" readonly>
+            <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+            <script src="~/Scripts/pickerjs.js"></script>
+          
+    </div>
+    }
