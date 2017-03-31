@@ -39,7 +39,7 @@ $(document).ready(function () {
             emailCont: $("#emailCont").val(),
             area: $("#area").val(),
         }
-        alert(costumer);
+      //  alert(costumer);
         $.ajax({
             type: 'POST',
             url: '/Client/save',
@@ -47,16 +47,16 @@ $(document).ready(function () {
             contentType: 'application/json',
             success: function (data) {
                 if (data.status) {
-                    alert('Successfully saved');
+                  //  alert('Successfully saved');
                     //here we will clear the form
 
                     $('#numCon,#nameCont,#familyCont,#nameCompanyCont,#Seniority,#adressCont,#phoneCont,#tellOfficeCont,#emailCont,#area').val('');
                     location.reload();
 
                 }
-                else {
-                    alert('Error');
-                }
+                //else {
+                //    alert('Error');
+                //}
 
             },
             error: function (error) {

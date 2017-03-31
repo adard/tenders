@@ -17,7 +17,7 @@ namespace tender.Models
         public int numSuggestion { get; set; }
         public int numTender { get; set; }
         public Nullable<int> numCont { get; set; }
-        public Nullable<int> priceToproduct { get; set; }
+        public Nullable<double> priceToproduct { get; set; }
         public Nullable<System.DateTime> dataSuggestion { get; set; }
         public Nullable<System.TimeSpan> timeSuggestion { get; set; }
         public string percentOff { get; set; }

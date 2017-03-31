@@ -15,6 +15,8 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in SiteMenu | filter:{ParentIf : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in SiteMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:34.15%"><img src="~/Images/logo1.png" width="100" /></li>
+
         </ul>
     </div>
 </div>
@@ -43,9 +45,9 @@
             <tr>
                 <td> Tender Num </td>
                 <td>
-                   
 
-                    <input type="text" disabled id="tenderNum" class="form-control"  />
+
+                    <input type="text" disabled id="tenderNum" class="form-control" />
                     <span class="error">Tender no required</span>
                 </td>
                 <td> Tender Name </td>
@@ -95,7 +97,7 @@
                 <td>
                     <select id="statatus" class="form-control" onselect="LoadType(this)">
                         <option>Select</option>
-                       
+
                         <option value="1">פעיל</option>
                         <option value="2">סגור</option>
                         <option value="3">טרם</option>
@@ -110,7 +112,7 @@
             <tr>
                 <td>from</td>
                 <td>
-                    <input type="date" id="from" class="form-control" placeholder="yyyy-MM-dd" min="2016-01-01" max="2019-12-31" required  value="17/05/2017"/>
+                    <input type="date" id="from" class="form-control" placeholder="yyyy-MM-dd" min="2016-01-01" max="2019-12-31" required value="17/05/2017" />
                     <span class="error">Valid from required (ex: MM-dd-yyyy)</span>
                 </td>
                 <td>till</td>
@@ -143,9 +145,10 @@
                 <td>Quantity</td>
                 <td>size roomy</td>
                 <td>max/min price</td>
-                
+                <td>remove</td>
+
             </tr>
-           
+
         </table>
         <div id="orderItems">
             <table class="table table-responsive" id="orderdetailsItems"></table>

@@ -21,6 +21,7 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in ClientMenu | filter:{ParentId : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in ClientMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:70%.15%"><img src="~/Images/logo1.png" width="100" /></li>
         </ul>
     </div>
 </div>
@@ -31,16 +32,18 @@
 @section Scripts{
     <script src="~/Scripts/appClient.js"></script>
 }
-<img src="../Images/logo.jpg">
+
+<p style="font-size:50px" > The Tender 45895 -מחשבי נייח is about to Start in : </p>
+<iframe src="~/HtmlPage1.html?time=780000" scrolling="no" style="width:700px" id="mytime" align="middle"></iframe>
+
+<img src="../Images/logo1.png" width="300" height="200" align="middle"  style="margin-left:35%"/>
 
 <link href="~/css/ClientMenu.css" rel="stylesheet" />
 
-
-
+<script src="~/Scripts/MyClock.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="~/Scripts/myScripts.js"></script>
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+ <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>

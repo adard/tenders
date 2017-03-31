@@ -1,8 +1,11 @@
 ﻿var Categories = [];
 var arrEditors = [];
 var arrType = [];
+var arrTenders = [];
+var flag = 0;
 //fetch categories from database
 function LoadCategory(element) {
+
     if (Categories.length == 0) {
         //ajax function for fetch data
         $.ajax({
@@ -12,6 +15,7 @@ function LoadCategory(element) {
                 Categories = data;
                 //render catagory
                 renderCategory(element);
+
             }
         })
     }
@@ -29,6 +33,7 @@ function renderCategory(element) {
         $ele.append($('<option/>').val(val.codeCategory).text(val.nameCategory));
     })
 }
+
 //fetch Editors from database
 function LoadEditor(element) {
     if (arrEditors.length == 0) {
@@ -38,8 +43,10 @@ function LoadEditor(element) {
             url: '/home/getEditor',
             success: function (data) {
                 arrEditors = data;
+
                 //render Editor
                 renderEditors(element);
+
             }
         })
     }
@@ -47,6 +54,7 @@ function LoadEditor(element) {
         //render catagory to the element
         renderEditors(element);
     }
+
 }
 
 function renderEditors(element) {
@@ -57,9 +65,11 @@ function renderEditors(element) {
     $.each(arrEditors, function (i, val) {
         $ele.append($('<option/>').val(val.numEditor).text(val.nameEditor));
     })
+
 }
 //fetch tender type from database
 function LoadType(element) {
+
     if (arrType.length == 0) {
         //ajax function for fetch data
         $.ajax({
@@ -68,6 +78,7 @@ function LoadType(element) {
             success: function (data) {
                 arrType = data;
                 renderType(element);
+
             }
         })
     }
@@ -114,6 +125,137 @@ function renderType(element) {
 //}
 
 
+var url = null;
+//function LoadDTender() {
+
+//    if (!url) {
+//        url = window.location.href;
+//        url = url.substr(url.indexOf('=') + 1);
+
+//    }
+//    //alert(url);
+//    $.ajax({
+//        type: "POST",
+//        url: "/home/getDetail",
+//        success: function (data) {
+//            //  alert("sucsses");
+//            //render products to appropriate dropdown
+//            renderDTender(data);
+//        },
+//        error: function (error) {
+//            console.log(error);
+//            alert(error);
+//        }
+//    })
+//}
+//function renderDTender(data) {
+function LoadDTender() {
+    if (!url) {
+        url = window.location.href;
+        url = url.substr(url.indexOf('=') + 1);
+
+    }
+    //alert(url);
+    $.ajax({
+        type: "POST",
+        url: "/home/getDetail",
+        success: function (data) {
+            //  alert("sucsses");
+            //render products to appropriate dropdown
+            renderDTender(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+}
+function renderDTender(data) {
+    //render product
+    $.each(data, function (i, v) {
+        var table = document.getElementById("table1");
+        if (table != undefined) {
+            var row = table.insertRow(i + 1);
+            var cell1 = row.insertCell(0);
+            var cell3 = row.insertCell(1);
+            var cell5 = row.insertCell(2);
+            var cell6 = row.insertCell(3);
+            var cell7 = row.insertCell(4);
+            var cell8 = row.insertCell(5)
+            //var cell9 = row.insertCell(6);
+            //var cell10 = row.insertCell(6)
+            var cell11 = row.insertCell(6)
+            var cell12 = row.insertCell(7)
+
+            cell1.innerHTML = v.numTender;
+            cell3.innerHTML = v.name;
+            cell5.innerHTML = v.typeAcquire;
+            cell6.innerHTML = v.nameEditor;
+            cell7.innerHTML = v.nameCategory;
+            cell8.innerHTML = v.nameType
+            // cell9.innerHTML = new Date(v.till.match(/\d/)[0] * 1).toLocaleDateString();
+            //  cell10.innerHTML =new Date(v.from.match(/\d/)[0] * 1).toLocaleDateString();
+            cell11.innerHTML = v.status;
+            var href = "UpdateTender?id=" + v.numTender;
+            cell12.innerHTML = "<a href=" + href + ">עדכן</a>";
+
+        }
+
+
+    }
+    )
+}
+
+
+
+
+//    $.each(data, function (i, v) {
+//        for (j = 0; j < arrEditors.length; j++) {
+//            if (v.numEditor == arrEditors[j].numEditor) 
+//                var editor = arrEditors[j].nameEditor;   
+//        }
+//        for (j = 0; j < Categories.length; j++) {
+//            if (v.codCategory == Categories[j].codeCategory)
+//                var cat = Categories[j].nameCategory;
+//        }
+//        for (j = 0; j < arrType.length; j++) {
+//            if (v.numType == arrType[j].numType)
+//                var ty = arrType[j].nameType;
+//        }
+
+
+
+//        var table = document.getElementById("table1");
+//        var row = table.insertRow(i + 1);
+//        var cell1 = row.insertCell(0);
+//        var cell3 = row.insertCell(1);
+//        var cell5 = row.insertCell(2);
+//        var cell6 = row.insertCell(3);
+//        var cell7 = row.insertCell(4);
+//        var cell8 = row.insertCell(5)
+//        //var cell9 = row.insertCell(6);
+//        //var cell10 = row.insertCell(6)
+//        var cell11 = row.insertCell(6)
+//        var cell12 = row.insertCell(7)
+
+//        cell1.innerHTML = v.numTender;
+//        cell3.innerHTML = v.name;
+//        cell5.innerHTML = v.typeAcquire;
+//        cell6.innerHTML = editor;
+//        cell7.innerHTML = cat;
+//        cell8.innerHTML = ty
+//        // cell9.innerHTML = new Date(v.till.match(/\d/)[0] * 1).toLocaleDateString();
+//        //  cell10.innerHTML =new Date(v.from.match(/\d/)[0] * 1).toLocaleDateString();
+//        cell11.innerHTML = v.status;
+//        var href = "UpdateTender?id=" + v.numTender;
+//        cell12.innerHTML = "<a href=" + href + ">עדכן</a>";
+
+
+
+
+//    }
+//    )
+//}
+
 $(document).ready(function () {
     //Add button click event
     $('#add').click(function () {
@@ -150,10 +292,10 @@ $(document).ready(function () {
         else {
             $('#price').siblings('span.error').css('visibility', 'hidden');
         }
-       
+
         if (isAllValid) {
-            
-            
+
+
             var $newRow = $('#mainrow').clone().removeAttr('id');
             $('.numProduct', $newRow).val($('#numProduct').val());
             $('.product', $newRow).val($('#product').val());
@@ -172,7 +314,7 @@ $(document).ready(function () {
 
             //clear select data
             $('#product').val('');
-            $('#numProduct').text(parseInt($('#numProduct').text())+1);
+            $('#numProduct').text(parseInt($('#numProduct').text()) + 1);
             $('#quantity,#roomy,#price').val('');
             $('#orderItemError').empty();
         }
@@ -206,16 +348,18 @@ $(document).ready(function () {
                 alert();
             } else {
                 // alert($('#tenderNum').val());
-               
+                alert($('.numProduct', this).text());
                 var orderItem = {
-                    numProduct: parseInt($('.numProduct', this).val()),
-                    NameProduct: $('product', this).val(),
+                    numProduct: parseInt($('.numProduct', this).text()),
+                    NameProduct: $('.product', this).val(),
                     Amount: parseInt($('.quantity', this).val()),
                     sizeRoomy: parseFloat($('.roomy', this).val()),
                     numTender: parseInt($('#tenderNum').val()),
                     PriceLimit: parseFloat($('.price', this).val()),
                     PriceUpdate: parseFloat($('.price', this).val()),
-                    DateUpdate:Date.now()
+                    weight: parseFloat($('.weight', this).val()),
+                    DateUpdate: new Date(),
+
                 }
                 list.push(orderItem);
             }
@@ -246,9 +390,6 @@ $(document).ready(function () {
         else {
             $('#tenderName').siblings('span.error').css('visibility', 'hidden');
         }
-
-
-
         if ($('#from').val().trim() == '') {
             $('#from').siblings('span.error').css('visibility', 'visible');
             isAllValid = false;
@@ -256,30 +397,23 @@ $(document).ready(function () {
         else {
             $('#from').siblings('span.error').css('visibility', 'hidden');
         }
-        if ($('#till').val().trim() == '') {
-            $('#till').siblings('span.error').css('visibility', 'visible');
-            isAllValid = false;
-        }
-        else {
-            $('#till').siblings('span.error').css('visibility', 'hidden');
-        }
-
-        if (isAllValid) {
-            var data = {
-                numTender: $('#tenderNum').val().trim(),
-                name: $('#tenderName').val().trim(),
-                numEditor: $('#Editors').val().trim(),
-                codCategory: $('#productCategory').val().trim(),
-                status: $('#status').val().trim(),
-                typeAcquire: $('#typeAcquire').val().trim(),
-                numType: $('#typeTender').val().trim(),
-                from: $('#from').val().trim(),
-                till: $('#till').val().trim(),
-                // Description: $('#description').val().trim(),
-                ProducToTender: list
+    
+            if (isAllValid) {
+                var data = {
+                    numTender: $('#tenderNum').val().trim(),
+                    name: $('#tenderName').val().trim(),
+                    numEditor: $('#Editors').val().trim(),
+                    codCategory: $('#productCategory').val().trim(),
+                    status: $('#status').val().trim(),
+                    typeAcquire: $('#typeAcquire').val().trim(),
+                    numType: $('#typeTender').val().trim(),
+                    from: $('#from').val().trim(),
+                    time_update: $('#time_update').val().trim(),
+                    hourStart: $("#hourStart").val().trim(),
+                 }
+               
             }
-
-            $(this).val('Please wait...');
+            $(this).val('Please Wait...');
 
             $.ajax({
                 type: 'POST',
@@ -288,16 +422,15 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 success: function (data) {
                     if (data.status) {
-                      //  alert('Successfully saved');
-                        //here we will clear the form
+                         //here we will clear the form
                         list = [];
-                        $('#tenderNum,#tenderName,#from,#til,l,#description').val('');
-                        $('#orderdetailsItems').empty();
-                    //    alert('Successfully 2');
+                        //$('#tenderNum,#tenderName,#from,#till,#description').val('');
+                        //$('#orderdetailsItems').empty();
+                        //    alert('Successfully 2');
 
                     }
                     else {
-                        alert('Error');
+                        alert('Error To save tender');
                     }
                     $('#submit').val('Save');
                 },
@@ -306,13 +439,36 @@ $(document).ready(function () {
                     $('#submit').val('Save');
                 }
             });
-        }
+            $.ajax({
+                type: 'POST',
+                url: '/home/saveP',
+                data: JSON.stringify(list),
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.status) {
+                         //here we will clear the form
+                        list = [];
+                        //$('#tenderNum,#tenderName,#from,#till,#description').val('');
+                        //$('#orderdetailsItems').empty();
+                        //    alert('Successfully 2');
+
+                    }
+                    else {
+                        alert('Error to product');
+                    }
+                    $('#submit').val('Save');
+                },
+                error: function (error) {
+                    console.log(error);
+                    $('#submit').val('Save');
+                }
+            });
+        
 
     });
 
 });
-
-LoadCategory($('#productCategory'));
-LoadEditor($('#Editors'));
-
 LoadType($('#typeTender'));
+LoadEditor($('#Editors'));
+LoadCategory($('#productCategory'));
+LoadDTender();

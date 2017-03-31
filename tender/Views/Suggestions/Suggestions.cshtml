@@ -1,6 +1,5 @@
 ﻿@model List<tender.Models.Tenders>
 
-
 @{
     ViewBag.Title = "Suggestions";
 }
@@ -23,6 +22,7 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in ClientMenu | filter:{ParentId : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in ClientMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:70%.15%"><img src="~/Images/logo1.png" width="100" /></li>
         </ul>
     </div>
 </div>
@@ -39,32 +39,47 @@
 <script src="~/Scripts/Suggestions.js"></script>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <link href="~/css/jquery-ui.css" rel="stylesheet" />
-<div class="details">
-    <h2>פירוט המכרז</h2>
+     <div id="dd" class="details">
 
-    <label id="numTender"></label>
-    <table class="table table-responsive" id="tbldtender">
-        <tr class="mycontainer" id="mainrow">
-        <tr>
-            @*<td><h1>num tender</h1></td>
-                <td><h1>name tender</h1></td>*@
-        </tr>
-    </table>
-    <table class="table table-responsive" id="tblsuggest">
-        <tr class="mycontainer" id="mainrow">
-            <td> numProduct</td>
-            <td>Product</td>
-            <td>Quantity</td>
-            <td> suggestion price</td>
-            <td>&nbsp;</td>
-        </tr>
+        <h2>פירוט המכרז</h2>
 
-    </table>
-    <div id="orderItems">
-        <table class="table table-responsive" id="orderdetailsItems"></table>
-        <span id="orderItemError" style="color:red"></span>
+        <label id="numTender"></label>
+        <table class="table table-responsive" id="tbldtender">
+            <tr class="mycontainer" id="mainrow">
+            <tr>
+                @*<td><h1>num tender</h1></td>
+                    <td><h1>name tender</h1></td>*@
+            </tr>
+        </table>
+        <table class="table table-responsive" id="tblsuggest">
+            <tr class="mycontainer" id="mainrow">
+                <td> NumProduct</td>
+                <td>Product</td>
+                <td>Quantity</td>
+                <td>Minimum price</td>
+                <td>Weight</td>
+                <td>Last Update</td>
+                <td>Suggestion price</td>
+                <td>&nbsp;</td>
+            </tr>
+
+        </table>
+        <div id="LastDetail"></div>
+        <div id="LastSuggest"></div>
+        <div id="avg"> </div>
+        <div id="dateNow"> </div>
+
+
+        <div id="orderItems">
+            <table class="table table-responsive" id="orderdetailsItems"></table>
+            <span id="orderItemError" style="color:red">
+                <label id="error" label />
+            </span>
+        </div>
+        <div style="padding:10px 0; text-align:right">
+            <input id="submit" type="button" value="Save" class="btn btn-warning" style="padding:10px 20px" onclick="clickAndDisable()">
+        </div>
     </div>
-    <div style="padding:10px 0; text-align:right">
-        <input id="submit" type="button" value="Save" class="btn btn-warning" style="padding:10px 20px" onclick="clickAndDisable()">
-    </div>
-</div>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />

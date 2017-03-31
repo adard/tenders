@@ -32,23 +32,70 @@ namespace tender.Controllers
             }
         }
 
+
+
+        public ActionResult getSuggestion2(int numTender)
+        {
+
+            //if (Request.QueryString["id"] == null)
+            //    return View();
+            //int id = Convert.ToInt32(Request.QueryString["id"]);
+            DbtenderEntities1 DB = new DbtenderEntities1();
+
+            var result = from t in DB.Tenders
+                         join c in DB.Categories on t.codCategory equals c.codeCategory
+                         join s in DB.Suggestions on t.numTender equals s.numTender
+                         join co in DB.Contestants on s.numCont equals co.numCon
+                         where t.numTender == numTender
+                         orderby s.numSuggestion
+                         select new { t.name, t.numEditor, c.nameCategory, s.dataSuggestion, co.nameCompanyCont, co.phoneCont, s.priceToproduct, s.numSuggestion };
+
+
+            //return View();
+
+            return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult log(Editors e)
+        {
+            DbtenderEntities1 DB = new DbtenderEntities1();
+            List<Editors> le = DB.Editors.ToList();
+            Editors s;
+            foreach (var item in le)
+            {
+                if (item.nameEditor.TrimEnd() == e.nameEditor && item.passEditor == e.passEditor)
+                {
+                    s = item;
+                    return new JsonResult { Data = s.numEditor, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                }
+
+            }
+            return new JsonResult { Data = -1, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
+
+        }
+        public ActionResult homeView()
+        {
+            return View();
+        }
         public ActionResult Tenders()
         {
 
-
-            DbtenderEntities1 DB = new DbtenderEntities1();
-            List<Tenders> TypeTender = DB.Tenders.ToList();
-
-            return View(TypeTender);
+            return View();
 
         }
 
         public ActionResult MyTenders()
         {
-            DbtenderEntities1 DB = new DbtenderEntities1();
-            List<Tenders> TypeTender = DB.Tenders.ToList();
 
-            return View(TypeTender);
+
+            return View();
+
+        }
+
+        public ActionResult winner()
+        {
+
+
+            return View();
 
         }
 
@@ -60,7 +107,30 @@ namespace tender.Controllers
             return View(TypeTender);
 
         }
+        public ActionResult getWinner()
+        {
 
+            //if (Request.QueryString["id"] == null)
+            //    return View();
+            //int id = Convert.ToInt32(Request.QueryString["id"]);
+            DbtenderEntities1 DB = new DbtenderEntities1();
+
+            var result = from c in DB.Categories
+                         join t in DB.Tenders on c.codeCategory equals t.codCategory
+                         join s in DB.Suggestions on t.numTender equals s.numTender
+                         join co in DB.Contestants on s.numCont equals co.numCon
+                         join ty in DB.TypeTender on t.numType equals ty.numType
+                         where t.winner==co.numCon
+                        where t.status.Contains("סגור")
+                         orderby t.name
+                         select new {ty.nameType,t.winner, t.name, c.nameCategory, s.dataSuggestion, s.priceToproduct, co.nameCompanyCont, co.nameCont,co.familyCont,t.numTender};
+
+
+            //return View();
+
+            return Json(result.Distinct().ToList(), JsonRequestBehavior.AllowGet);
+
+        }
         public ActionResult getSuggestion(int numTender)
         {
 
@@ -77,7 +147,7 @@ namespace tender.Controllers
                          join s1 in DB.SuggestionDetail on p.numProduct equals s1.numproduct
                          where t.numTender == numTender
                          orderby p.NameProduct
-                         select new { t.name, t.numEditor, c.nameCategory, s.timeSuggestion, p.NameProduct, co.nameCompanyCont, co.phoneCont, s1.priceToProduct};
+                         select new { t.name, t.numEditor, c.nameCategory, s.timeSuggestion, p.NameProduct, co.nameCompanyCont, co.phoneCont, s1.priceToProduct };
 
 
             //return View();
@@ -99,11 +169,12 @@ namespace tender.Controllers
                          join t in DB.Tenders on c.codeCategory equals t.codCategory
                          join s in DB.TypeTender on t.numType equals s.numType
                          join co in DB.Editors on t.numEditor equals co.numEditor
-  
-                         select new { t.numTender, t.name, t.typeAcquire, co.nameEditor, c.nameCategory,t.@from, t.@till,s.nameType,t.status};
+
+                         select new { t.numTender, t.name, t.typeAcquire, co.nameEditor, c.nameCategory, t.@from, t.@till, s.nameType, t.status };
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
 
         }
+
 
 
         public ActionResult Suggestions()
@@ -188,6 +259,20 @@ namespace tender.Controllers
             return new JsonResult { Data = products, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
+
+        public int findTenderDetail()
+        {
+
+            int num = 0;
+            DbtenderEntities1 DB = new DbtenderEntities1();
+
+            List<ProducToTender> result = DB.ProducToTender.ToList();
+            num = result.Count + 1;
+
+            return num;
+        }
+
+
         [HttpPost]
         public JsonResult save(Tenders Tenders)
         {
@@ -219,7 +304,7 @@ namespace tender.Controllers
                     DB.Tenders.Add(Tenders);
                     try
                     {
-                      DB.SaveChanges();
+                        DB.SaveChanges();
                     }
                     catch (Exception)
                     {
@@ -245,30 +330,37 @@ namespace tender.Controllers
         }
         public ActionResult saveUpdateTender(Tenders t)
         {
+
             ViewBag.Message = "";
-           
-        
-            using (DbtenderEntities1 DB1 = new DbtenderEntities1())
-              {
-                foreach (var item in DB1.Tenders)
+            DbtenderEntities1 db = new DbtenderEntities1();
+            List<Tenders> t1 = db.Tenders.ToList();
+            foreach (var item in t1)
+            {
+                if (item.numTender == t.numTender)
                 {
-                    if (item.numTender == t.numTender)
+                    Tenders t2 = item;
+                    t2.name = t.name;
+                    t2.numEditor = t.numEditor;
+                    t2.numType = t.numType;
+                    t2.status = t.status;
+                    t2.typeAcquire = t.typeAcquire;
+                    t2.codCategory = t.codCategory;
+                    t2.from = t.from;
+                    t2.till = t.till;
+                    t2.hourStart = t.hourStart;
+                    t2.hourFinish = t.hourFinish;
+
+                    try
                     {
-                      //  item.numEditor = t.numEditor;
-                      //  item.codCategory = t.codCategory;
-                        //item.from = t.from;
-                        //item.hourFinish = t.hourFinish;
-                        //item.hourStart = t.hourStart;
-                        //item.numType = t.numType;
-                        //item.status = t.status;
-                        //item.till = t.till;
-                        //item.typeAcquire = t.typeAcquire;
-                        item.name = t.name;
-                        if(ModelState.IsValid)
-                           DB1.SaveChanges();
-                      
+                        db.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+
 
                     }
+
+                    break;
                 }
             }
 
@@ -298,6 +390,16 @@ namespace tender.Controllers
             return null;
 
         }
+        public JsonResult getTenders()
+        {
+            DbtenderEntities1 DB = new DbtenderEntities1();
+            List<Tenders> tenders = DB.Tenders.ToList();
+
+
+            return new JsonResult { Data = tenders, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+
+        }
         public ActionResult getNumOfProd(int numTender)
         {
             int num = 1;
@@ -313,6 +415,99 @@ namespace tender.Controllers
 
             return Json(num, JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult saveProductTender(List<ProducToTender> pt)
+        {
+            bool status = false;
+
+            DbtenderEntities1 db = new DbtenderEntities1();
+            List<ProducToTender> ptlist = db.ProducToTender.ToList();
+            bool flag;
+            foreach (var item in pt)
+            {
+                flag = false;
+                foreach (var item2 in ptlist)
+                {
+                    if (item2.numTender == item.numTender && item2.numProduct == item.numProduct)
+                    {
+                        flag = true;
+                        ProducToTender p = item2;
+                        p.NameProduct = item.NameProduct;
+                        p.numProduct = item.numProduct;
+                        p.PriceLimit = item.PriceLimit;
+                        p.sizeRoomy = item.sizeRoomy;
+                        p.Amount = item.Amount;
+                        try
+                        {
+                            db.SaveChanges();
+                            status = true;
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
+                    }
+                }
+                if (!flag)
+                {
+                    ProducToTender p = item;
+                    var a = TryUpdateModel(p);
+                    db.ProducToTender.Add(p);
+
+                    try
+                    {
+
+                        db.SaveChanges();
+                        status = true;
+
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+
+                    }
+                }
+
+            }
+
+
+
+
+            return new JsonResult { Data = new { status = status } };
+
+        }
+        public JsonResult saveP(List<ProducToTender> pt)
+        {
+           int TenderDetail = findTenderDetail();
+             bool status = false;
+            var isValidModel = true;
+            if (isValidModel)
+            {
+                using (DbtenderEntities1 DB = new DbtenderEntities1())
+                {
+                    foreach (var item in pt)
+                    {
+                        item.TenderDetailsID = TenderDetail;
+                        DB.ProducToTender.Add(item);
+                        TenderDetail = TenderDetail + 1;
+                    }
+
+
+                    try
+                    {
+                        DB.SaveChanges();
+                        status = true;
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+
+                }
+            }
+            return new JsonResult { Data = new { status = status } };
         }
 
     }

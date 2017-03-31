@@ -13,6 +13,8 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in SiteMenu | filter:{ParentIf : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in SiteMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li ng-repeat="menu in ClientMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:34.15%"><img src="~/Images/logo1.png" width="100" /></li>
         </ul>
     </div>
 </div>
@@ -29,16 +31,15 @@
 @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
 <link href="~/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Scripts/conToTender.js"></script>
-
-<header style="top:0px;position:relative; text-align:right">
-    <img src="~/Images/search1.png"  style="position: inherit;left: 4px;top: -1px; height: 29px;" />
-    <input style="padding:5px 10px; border:none"type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+ <header style="top:0px;position:relative; text-align:right">
+    <img src="~/Images/search1.png" style="position: inherit;left: 4px;top: -1px; height: 29px;" />
+    <input style="padding:5px 10px; border:none" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Number.." title="Type in a name">
     <link href="~/css/table.css" rel="stylesheet" />
 </header>
 <body>
     @*<div style="padding:10px 0; text-align:right">
         </div>*@
-    <h2>add contestant to tender:    <select style="font-size:20px; padding:5px 10px; border:none " id="tenderNum"></select></h2>
+    <h2>add contestant to tender:<select style="font-size:20px; padding:5px 10px; border:none " id="tenderNum"></select></h2>
     <div>
         <table class="table table-responsive" id="tblcon">
             <tbody>

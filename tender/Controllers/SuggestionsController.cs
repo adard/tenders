@@ -44,8 +44,23 @@ namespace tender.Controllers
             catch (Exception) { }
             return View();
         }
+        public ActionResult updateTender(Tenders t)
+        {
 
-
+            try
+            {
+                using (DbtenderEntities1 DB = new DbtenderEntities1())
+                {
+                    var tender = DB.Tenders.Find(Convert.ToInt32(t.numTender));
+                    tender.status = "סגור";
+                    tender.winner = t.winner;
+                    tender.till = t.till;
+                    DB.SaveChanges();
+                }
+            }
+            catch (Exception) { }
+            return View();
+        }
         public ActionResult ChangePrice(int numtender)
         {
             DateTime dt = DateTime.Now;
@@ -75,13 +90,11 @@ namespace tender.Controllers
                     }
                 }
 
-          
+
                 catch (Exception) { }
             }
             return View();
         }
-
-
         public ActionResult getSuggestionDetail(int numTender)
         {
 
@@ -157,18 +170,34 @@ namespace tender.Controllers
             {
                 Tender = DB.Tenders.Where(a => a.numTender.Equals(numTender)).OrderBy(a => a.numTender).ToList();
             }
+            foreach (var item in Tender)
+            {
+                if((item.status).Contains(("סגור")))
+                 return Json("close", JsonRequestBehavior.AllowGet);
+
+            }
+            
+             
             return Json(Tender, JsonRequestBehavior.AllowGet);
 
         }
         public ActionResult getProduct(int numTender)
         {
+            int max = getSuggestionsMax(numTender);
+            DbtenderEntities1 DB = new DbtenderEntities1();
 
-            List<ProducToTender> products = new List<ProducToTender>();
-            using (DbtenderEntities1 DB = new DbtenderEntities1())
-            {
-                products = DB.ProducToTender.Where(a => a.numTender.Equals(numTender)).OrderBy(a => a.numTender).ToList();
-            }
-            return Json(products, JsonRequestBehavior.AllowGet);
+
+            var result = from s in DB.SuggestionDetail
+                         join p in DB.ProducToTender on s.numproduct equals p.numProduct
+                         join s1 in DB.Suggestions on s.numsuggest equals s1.numSuggestion
+
+                         join t in DB.Tenders on p.numTender equals t.numTender
+                         where p.numTender == numTender
+                         where s.numsuggest == max
+                         where p.numProduct == s.numproduct
+                         select new { s.priceToProduct, s.numproduct, p.sizeRoomy,p.Amount,p.NameProduct,p.weight,t.hourFinish ,t.till,s1.timeSuggestion,s1.dataSuggestion};
+
+            return Json(result.Distinct().ToList(), JsonRequestBehavior.AllowGet);
 
         }
         public ActionResult getType(int numType)
@@ -178,6 +207,7 @@ namespace tender.Controllers
             {
                 type = DB.TypeTender.Where(a => a.numType.Equals(numType)).OrderBy(a => a.nameType).ToList();
             }
+
             return Json(type, JsonRequestBehavior.AllowGet);
         }
 
@@ -242,7 +272,7 @@ namespace tender.Controllers
             return new JsonResult { Data = suggestion, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public JsonResult getSuggestionDetails(int numsuggestion)
+        public JsonResult getSuggestionDetails1(int numsuggestion)
         {
             List<SuggestionDetail> suggestionDetail = new List<SuggestionDetail>();
             using (DbtenderEntities1 DB = new DbtenderEntities1())
@@ -250,6 +280,18 @@ namespace tender.Controllers
                 suggestionDetail = DB.SuggestionDetail.Where(a => a.numDetailSuggestion.Equals(numsuggestion)).OrderBy(a => a.numDetailSuggestion).ToList();
             }
             return new JsonResult { Data = suggestionDetail, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        public ActionResult getSizeRoomy(int numTender)
+        {
+            DbtenderEntities1 DB = new DbtenderEntities1();
+
+            var result = from p in DB.ProducToTender
+                         where p.numTender == numTender
+                         orderby p.numProduct
+                         select new { p.numProduct, p.sizeRoomy };
+
+            return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult Loadtime(int numtender)
@@ -259,24 +301,186 @@ namespace tender.Controllers
             var result = from p in DB.ProducToTender
                          join t in DB.Tenders on p.numTender equals t.numTender
                          where p.numTender == numtender
-                         select new { p.DateUpdate,t.time_update};
-            
+                         select new { p.DateUpdate, t.time_update };
+
             //   var t=(Convert.ToDateTime(result));
             //  var tender = DB.Tenders.Find(Convert.ToInt32(numTender));
 
             // var s =t.ToString.conver
             //return View();
-         //   DateTime dt = result.ToList.;
-             return Json(result.Distinct().ToList(), JsonRequestBehavior.AllowGet);
+            //   DateTime dt = result.ToList.;
+            return Json(result.Distinct().ToList(), JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult getSuggestionMax(int numTender)
+        public int getSuggestionsMax(int numTender)
         {
+            int max = 0;
+            int convertMax;
+            List<Suggestions> suggestion = new List<Suggestions>();
+            DbtenderEntities1 DB1 = new DbtenderEntities1();
 
+          
+
+            //return View();
+            using (DbtenderEntities1 DB = new DbtenderEntities1())
+            {
+                suggestion = DB.Suggestions.Where(a => a.numTender.Equals(numTender)).OrderBy(a => a.numTender).ToList();
+            }
+            if (suggestion != null)
+            {
+                try
+
+                {
+                    foreach (var item in suggestion)
+                    {
+
+                        using (DbtenderEntities1 DB = new DbtenderEntities1())
+                        {
+                            var numSuggestion = DB.Suggestions.Find((item.numSuggestion));
+                            //   var tender = DB.Suggestions.Find((item.numTender));
+                            convertMax = Convert.ToInt32(numSuggestion.numSuggestion);
+                            if (convertMax > max)
+                                max = convertMax;
+                        }
+                    }
+                }
+                catch (Exception) { }
+
+            }
+            //using (DbtenderEntities1 DB = new DbtenderEntities1())
+            //{
+            //    suggestionDetail = DB.SuggestionDetail.Where(a => a.numsuggest.Equals(max)).OrderBy(a => a.numDetailSuggestion).ToList();
+            //}
+            ////  retu
+            return max;
+        }
+        public ActionResult findLastDetail()
+        {
+     
+            int num = 0;
             DbtenderEntities1 DB = new DbtenderEntities1();
 
+            List<SuggestionDetail> result = DB.SuggestionDetail.ToList();
+            num = result.Count + 1;
 
-            var status = from t in DB.Tenders
+            return Json(num, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+        [HttpPost]
+        public JsonResult saveDetail(SuggestionDetail s2)
+        {
+
+            bool status = false;
+            var isValidModel = TryUpdateModel(s2);
+            if (isValidModel)
+            {
+                using (DbtenderEntities1 DB = new DbtenderEntities1())
+                {
+
+
+                    DB.SuggestionDetail.Add(s2);
+                    try
+                    {
+                        DB.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                    status = true;
+                }
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpPost]
+        public JsonResult saving(Suggestions s1)
+        {
+            bool status = false;
+            var isValidModel = TryUpdateModel(s1);
+            if (isValidModel)
+            {
+                using (DbtenderEntities1 DB = new DbtenderEntities1())
+                {
+
+
+                    DB.Suggestions.Add(s1);
+                    try
+                    {
+                        DB.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    status = true;
+                }
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpPost]
+        public JsonResult save(Suggestions s1)
+        {
+            //  List<Suggestions> s2 = new List<Suggestions>();
+           Suggestions s2;
+            s2 = s1;
+            //s2.numSuggestion = 0;
+            //s2.numTender = 0;
+            //s2.numCont = 0;
+            //s2.numSuggestion = s1.numSuggestion;
+            //s2.numTender = s1.numTender;
+            //s2.numCont = s1.numCont;
+            //s2.priceToproduct = s1.priceToproduct;
+            bool status = false;
+            //var isValidModel = TryUpdateModel(s2);
+            //if (isValidModel)
+            //{
+                using (DbtenderEntities1 DB = new DbtenderEntities1())
+                {
+
+
+                    DB.Suggestions.Add(s2);
+                    try
+                    {
+                        DB.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    status = true;
+                }
+        //    }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        public ActionResult findLastSuggest()
+        {
+            int num = 0;
+            DbtenderEntities1 DB = new DbtenderEntities1();
+
+            List<Suggestions> result = DB.Suggestions.ToList();
+            num = result.Count + 1;
+
+            return Json(num, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+        public JsonResult getSuggestionMax(int numTender)
+        {
+ 
+            int max = 0;
+            int convertMax;
+            List<Suggestions> suggestion = new List<Suggestions>();
+            DbtenderEntities1 DB1 = new DbtenderEntities1();
+
+            var status = from t in DB1.Tenders
                          where t.numTender == numTender
                          select t.status;
             if (status.ToList()[0].ToString().Contains("סגור"))
@@ -286,19 +490,54 @@ namespace tender.Controllers
             }
 
             //return View();
-            var result = from s in DB.Suggestions
-                         join p in DB.ProducToTender on s.numTender equals p.numTender
-                         join s1 in DB.SuggestionDetail on s.numSuggestion equals s1.numsuggest
-                         where s.numTender == numTender
-                         orderby s1.numproduct
-                         select new {p.sizeRoomy,p.numTender,p.numProduct };
+            using (DbtenderEntities1 DB = new DbtenderEntities1())
+            {
+                suggestion = DB.Suggestions.Where(a => a.numTender.Equals(numTender)).OrderBy(a => a.numTender).ToList();
+            }
+             if (suggestion != null)
+            {
+                try
 
+                {
+                    foreach (var item in suggestion)
+                    {
 
-            //return View();
+                        using (DbtenderEntities1 DB = new DbtenderEntities1())
+                        {
+                            var numSuggestion = DB.Suggestions.Find((item.numSuggestion));
+                            //   var tender = DB.Suggestions.Find((item.numTender));
+                            convertMax = Convert.ToInt32(numSuggestion.numSuggestion);
+                            if (convertMax > max)
+                                max = convertMax;
+                        }
+                    }
+                }
+                catch (Exception) { }
+
+            }
+
+         
+            var result = from s in DB1.SuggestionDetail
+                         join p in DB1.ProducToTender on s.numproduct equals p.numProduct
+                         where p.numTender==numTender
+                          where  s.numsuggest == max 
+                          where p.numProduct==s.numproduct
+                         select new {  s.priceToProduct, s.numproduct, p.sizeRoomy ,p.weight};
 
             return Json(result.Distinct().ToList(), JsonRequestBehavior.AllowGet);
 
         }
+
+ 
+
+
+
+
+
+
+
+    
+
 
 
     }

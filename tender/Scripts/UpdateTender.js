@@ -1,15 +1,20 @@
 ﻿var url = null;
-function LoadCategory() {
+var list = [];
+var arrTenders = [];
+var numP = 0;
+var Categories = [];
+var arrEditors = [];
+var arrType = [];
+var tender;
+
+function LoadUrl() {
 
     if (!url) {
         url = window.location.href;
         url = url.substr(url.indexOf('=') + 1);
     }
 }
-    var Categories = [];
-    var arrEditors = [];
-    var arrType = [];
-    var tender;
+   
     //fetch categories from database
     function LoadCategory(element) {
        
@@ -21,6 +26,7 @@ function LoadCategory() {
                 data: { 'numTender': url },
                 success: function (data) {
                     Categories = data;
+                   
                     //render catagory
                     renderCategory(element);
                 }
@@ -37,7 +43,7 @@ function LoadCategory() {
             url = window.location.href;
             url = url.substr(url.indexOf('=') + 1);
         }
-        alert(url);
+     
         //ajax function for fetch data
         $.ajax({
             type: "GET",
@@ -47,6 +53,7 @@ function LoadCategory() {
                 tender = data;
                 //render tender
                 renderTender(tender);
+                
 
             }
         })
@@ -55,40 +62,41 @@ function LoadCategory() {
     }
 
     function renderTender(tender) {
-        if (parseInt(tender.hourStart.Hours) < 10)
-            sh = "0" + tender.hourStart.Hours;
-        else
-            sh = tender.hourStart.Hours;
+       // alert(tender.hourStart);
+        //if (parseInt(tender.hourStart.Hours) < 10)
+        //    sh = "0" + tender.hourStart.Hours;
+        //else
+        //    sh = tender.hourStart.Hours;
      
-        if (parseInt(tender.hourFinish.Hours) < 10)
-            fh = "0" + tender.hourFinish.Hours;
-        else
-            fh = tender.hourFinish.Hours;
+        //if (parseInt(tender.hourFinish.Hours) < 10)
+        //    fh = "0" + tender.hourFinish.Hours;
+        //else
+        //    fh = tender.hourFinish.Hours;
 
 
-        if (parseInt(tender.hourStart.Seconds) < 10)
-            ss = "0" + tender.hourStart.Seconds;
-        else
-            ss = tender.hourStart.Seconds;
+        //if (parseInt(tender.hourStart.Seconds) < 10)
+        //    ss = "0" + tender.hourStart.Seconds;
+        //else
+        //    ss = tender.hourStart.Seconds;
 
-        if (parseInt(tender.hourFinish.Seconds) < 10)
-            fs = "0" + tender.hourFinish.Seconds;
-        else
-            fs = tender.hourFinish.Seconds;
+        //if (parseInt(tender.hourFinish.Seconds) < 10)
+        //    fs = "0" + tender.hourFinish.Seconds;
+        //else
+        //    fs = tender.hourFinish.Seconds;
     
-        if (parseInt(tender.hourStart.Minutes) < 10)
-            sm = "0" + tender.hourStart.Minutes;
-        else
-            sm = tender.hourStart.Minutes;
+        //if (parseInt(tender.hourStart.Minutes) < 10)
+        //    sm = "0" + tender.hourStart.Minutes;
+        //else
+        //    sm = tender.hourStart.Minutes;
 
-        if (parseInt(tender.hourFinish.Minutes) < 10)
-            fm = "0" + tender.hourFinish.Minutes;
-        else
-            fm = tender.hourFinish.Minutes;
+        //if (parseInt(tender.hourFinish.Minutes) < 10)
+        //    fm = "0" + tender.hourFinish.Minutes;
+        //else
+        //    fm = tender.hourFinish.Minutes;
    
-        var s1 = sh + ":" + ss + ":" + sm;
-        console.log(tender)
-        var s2 = fh + ":" + fs + ":" + fm;
+        //var s1 = sh + ":" + sm + ":" + ss;
+        //console.log(tender)
+        //var s2 = fh + ":" + fm + ":" + fs;
 
 
 
@@ -107,20 +115,28 @@ function LoadCategory() {
 
         var date2 = new Date(parseInt(tender.till.substr(6)));
 
-      
+        var s = new Date(parseInt(tender.hourStart.substr(6)));
+
+        var f = new Date(parseInt(tender.hourFinish.substr(6)));
+        //alert(tender.time_update)
+        var myDate1 = s.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+        var myDate2 = f.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
         $("#tenderNum").val(tender.numTender)
         $("#tenderName").val(tender.name)
         $("#productCategory").val(tender.codCategory)
+        //alert("num"+tender.codCategory);
         $("#Editors").val(tender.numEditor)
         $("#typeTender").val(tender.numType)
         $("#typeAcquire option[value='1']").prop('selected', true);
         $("#statatus option[value='2']").prop('selected', true);
-        
+
+      
+
         $('#from').val(dateToInput(date1));
         $('#till').val(dateToInput(date2));
-
-       $("#start").val(s1);
-        $("#finish").val(s2);
+       // alert(myDate1)
+        $("#start").val(myDate1);
+        $("#finish").val(myDate2);
 
     }
 
@@ -132,6 +148,7 @@ function LoadCategory() {
         $ele.empty();
         $ele.append($('<option/>').val('0').text('Select'));
         $.each(Categories, function (i, val) {
+            
             $ele.append($('<option/>').val(val.codeCategory).text(val.nameCategory));
         })
     }
@@ -251,12 +268,12 @@ function LoadCategory() {
             var cell5 = row.insertCell(4);
             var cell6 = row.insertCell(5);
            
-            cell1.innerHTML =v.numProduct
+            cell1.innerHTML = "<label>" + v.numProduct + "</label>";
             cell2.innerHTML = "<input type=text value=" + v.NameProduct + ">";
             cell3.innerHTML = "<input type=number value=" + v.Amount + ">";
             cell4.innerHTML = "<input type=number value=" + v.sizeRoomy + ">";
             cell5.innerHTML = "<input type=number value=" + v.PriceLimit + ">";
-            cell5.innerHTML = "<input type=button class=remove btn-danger value = remove>";
+            cell6.innerHTML = "<input type=button class=remove btn-danger value = remove>";
           
         })
         //    var $ele = $(element);
@@ -271,7 +288,7 @@ function LoadCategory() {
         
         //Add button click event
         $('#add').click(function () {
-            
+           
             //validation and add order items
             var isAllValid = true;
           
@@ -312,19 +329,29 @@ function LoadCategory() {
                 url = window.location.href;
                 url = url.substr(url.indexOf('=') + 1);
             }
-                //ajax function for fetch data
+         //   alert(numP);
+            //ajax function for fetch data
+            if (numP == 0) {
+               // alert(url);
                 $.ajax({
                     type: "GET",
-                    url: '/Home/getNumOfProd',
+                    url: '/home/getNumOfProd',
                     data: { 'numTender': url },
                     success: function (data) {
-                        numOfProd = data;
-                        $('#tblProduct tr:last').after('<tr><td><label>'+data+'</label><td><input type=text></td><td><input type=number></td><input type=number></td><td><input type=number></td><td> <input type=button class=remove btn-danger value = remove></td></tr>');
+                      //  alert(data);
+                        numP = data;
+                        $('#tblProduct tr:last').after('<tr><td><label>' + numP + '</label><td><input type=text></td><td><input type=text></td><td><input type=number></td><input type=number></td><td><input type=number></td><td> <input type=button class=remove btn-danger value = remove></td></tr>');
 
-                        
+
                     }
                 })
-  
+            }
+            else {
+                //alert(numP);
+                numP++;
+                $('#tblProduct tr:last').after('<tr><td><label>' + numP + '</label><td><input type=text></td><td><input type=text></td><td><input type=number></td><input type=number></td><td><input type=number></td><td> <input type=button class=remove btn-danger value = remove></td></tr>');
+
+            }
 
                 //remove id attribute from new clone row
                 //$('#numProduct,#product,#quantity,#roomy,#price,#add', $newRow).removeAttr('id');
@@ -387,7 +414,7 @@ function LoadCategory() {
                 isAllValid = false;
             }*/
 
-            alert($('#statatus option:selected').val());
+        
          
             if ($('#tenderName').val().trim() == '') {
                 $('#tenderName').siblings('span.error').css('visibility', 'visible');
@@ -413,8 +440,36 @@ function LoadCategory() {
             else {
                 $('#till').siblings('span.error').css('visibility', 'hidden');
             }
+        
+
+            $("#tblProduct").find('tr').not(':first').each(function () {
+                
+                var numProduct = $(this).find('td:eq(0) label').text();
+                var Product = $(this).find('td:eq(1) input').val();
+                var amount = $(this).find('td:eq(2) input').val();
+                var roomy = $(this).find('td:eq(3) input').val();
+                var priceLimit = $(this).find('td:eq(4) input').val();
+              //  alert(numProduct);
+                var orderItem = {
+                    numTender:$('#tenderNum').val().trim(),
+                    numProduct: numProduct,
+                    NameProduct: Product,
+                    Amount: amount,
+                    sizeRoomy: roomy,
+                    numTender: parseInt($('#tenderNum').val()),
+                    PriceLimit: priceLimit,
+                    PriceUpdate: priceLimit,
+                
+                }
+                list.push(orderItem);
+               // alert(numProduct + " " + Product + " " + amount + " " + roomy + " " + priceLimit);
+                
+            });
+
+
 
             if (isAllValid) {
+               
                 var data = {
                     numTender: $('#tenderNum').val().trim(),
                     name: $('#tenderName').val().trim(),
@@ -425,8 +480,10 @@ function LoadCategory() {
                     numType: $('#typeTender').val().trim(),
                     from: $('#from').val().trim(),
                     till: $('#till').val().trim(),
+                    hourStart: $("#start").val().trim(),
+                    hourFinish: $("#finish").val().trim(),
                     // Description: $('#description').val().trim(),
-                   // ProducToTender: list
+                    //ProducToTender: list
                 }
 
                 $(this).val('Please wait...');
@@ -438,16 +495,41 @@ function LoadCategory() {
                     contentType: 'application/json',
                     success: function (data) {
                         if (data.status) {
-                            alert('Successfully saved');
+                           // alert('Successfully saved');
                             //here we will clear the form
                             list = [];
                             $('#tenderNum,#tenderName,#from,#til,l,#description').val('');
                             $('#orderdetailsItems').empty();
-                            alert('Successfully 2');
+                           // alert('Successfully 2');
 
                         }
                         else {
-                            alert('Error');
+                           // alert('Error');
+                        }
+                        $('#submit').val('Save');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('#submit').val('Save');
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/saveProductTender',
+                    data: JSON.stringify(list),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data.status) {
+                         //   alert('Successfully saved');
+                            //here we will clear the form
+                            list = [];
+                            $('#tenderNum,#tenderName,#from,#til,l,#description').val('');
+                            $('#orderdetailsItems').empty();
+                           // alert('Successfully 2');
+
+                        }
+                        else {
+                          //  alert('Error');
                         }
                         $('#submit').val('Save');
                     },
@@ -462,10 +544,11 @@ function LoadCategory() {
 
     });
 
-
+    LoadUrl();
+    getTender();
 LoadCategory($('#productCategory'));
 LoadEditor($('#Editors'));
-
 LoadType($('#typeTender'));
-getTender();
+
+
 LoadProduct();

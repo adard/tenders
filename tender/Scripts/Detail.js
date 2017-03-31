@@ -31,10 +31,9 @@ function renderDTender(data) {
         var cell6 = row.insertCell(3);
         var cell7 = row.insertCell(4);
         var cell8 = row.insertCell(5)
-        //var cell9 = row.insertCell(6);
-       //var cell10 = row.insertCell(6)
-        var cell11 = row.insertCell(6)
-        var cell12 = row.insertCell(7)
+        var cell9 = row.insertCell(6);
+        var cell11 = row.insertCell(7);
+        var cell12 = row.insertCell(8);
 
         cell1.innerHTML = v.numTender;
         cell3.innerHTML = v.name;
@@ -42,8 +41,11 @@ function renderDTender(data) {
         cell6.innerHTML = v.nameEditor;
         cell7.innerHTML = v.nameCategory;
         cell8.innerHTML = v.nameType
-       // cell9.innerHTML = new Date(v.till.match(/\d/)[0] * 1).toLocaleDateString();
-      //  cell10.innerHTML =new Date(v.from.match(/\d/)[0] * 1).toLocaleDateString();
+        var date1 = ToJavaScriptDate(v.from);
+       //  var date2 = ToJavaScriptDate(v.till);
+       //  var time2 = ToJavaScriptTime(v.hourFinish);
+        cell9.innerHTML = date1;
+     //   cell10.innerHTML = date2;
        cell11.innerHTML = v.status;
         var href = "UpdateTender?id=" +v.numTender;
         cell12.innerHTML = "<a href="+href+">עדכן</a>";
@@ -53,6 +55,38 @@ function renderDTender(data) {
     
     }
     )
+}
+
+
+function ToJavaScriptDate(value) {
+     var pattern = /Date\(([^)]+)\)/;
+    var results = pattern.exec(value);
+    var dt = new Date(parseFloat(results[1]));
+    return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+}
+function ToJavaScriptTime(value) { //To Parse Date from the Returned Parsed Date
+    var pattern = /Date\(([^)]+)\)/;
+    var results = pattern.exec(value);
+    var dt = new Date(parseFloat(results[1]));
+    return (dt.getHours()) + ":" + dt.getMinutes();
+}
+
+function myFunction() {
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("table1");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
 }
 
 LoadDTender();

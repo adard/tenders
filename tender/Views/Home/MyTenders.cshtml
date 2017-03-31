@@ -22,6 +22,7 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in SiteMenu | filter:{ParentIf : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in SiteMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:34.15%"><img src="~/Images/logo1.png" width="100" /></li>
         </ul>
     </div>
 </div>
@@ -32,8 +33,11 @@
 @section Scripts{
     <script src="~/Scripts/MyApp.js"></script>
 }
-<link href="~/css/table.css" rel="stylesheet" />
-
+<header style="top:0px;position:relative; text-align:right">
+    <img src="~/Images/search1.png" style="position: inherit;left: 4px;top: -1px; height: 29px;" />
+    <input style="padding:5px 10px; border:none" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Number.." title="Type in a name">
+    <link href="~/css/table.css" rel="stylesheet" />
+</header>
 <h2>All Tenders</h2>
 <div>
 
@@ -45,13 +49,9 @@
             <th>Name Editor</th>
             <th>Category</th>
             <th>Type Tender</th>
+            <th>From</th>
             <th>Status</th>
             <th>Update</th>
-
-
-
-
-
         </tr>
 
 
@@ -77,6 +77,5 @@
 <script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">   </script>
 <link href="~/css/jquery-ui.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<script src="~/Scripts/myScripts.js"></script>
-<script src="~/Scripts/UpdateTender.js"></script>
+ 
 <link href="~/Content/bootstrap.css" rel="stylesheet" />

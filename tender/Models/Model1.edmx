@@ -10,7 +10,7 @@
             <PropertyRef Name="codeCategory" />
           </Key>
           <Property Name="codeCategory" Type="int" Nullable="false" />
-          <Property Name="nameCategory" Type="nchar" MaxLength="20" />
+          <Property Name="nameCategory" Type="nchar" MaxLength="40" />
         </EntityType>
         <EntityType Name="ClientMenu">
           <Key>
@@ -26,26 +26,26 @@
             <PropertyRef Name="numCon" />
           </Key>
           <Property Name="numCon" Type="int" Nullable="false" />
-          <Property Name="userNameCont" Type="nchar" MaxLength="10" />
+          <Property Name="userNameCont" Type="nchar" MaxLength="40" />
           <Property Name="passCont" Type="int" />
-          <Property Name="nameCont" Type="nchar" MaxLength="10" />
-          <Property Name="familyCont" Type="nchar" MaxLength="10" />
-          <Property Name="nameCompanyCont" Type="nchar" MaxLength="10" />
+          <Property Name="nameCont" Type="nchar" MaxLength="40" />
+          <Property Name="familyCont" Type="nchar" MaxLength="40" />
+          <Property Name="nameCompanyCont" Type="nchar" MaxLength="40" />
           <Property Name="Seniority" Type="int" />
           <Property Name="codeCategory" Type="int" />
-          <Property Name="addressCont" Type="nchar" MaxLength="20" />
+          <Property Name="addressCont" Type="nchar" MaxLength="40" />
           <Property Name="phoneCont" Type="int" />
           <Property Name="tellOfiiceCont" Type="int" />
           <Property Name="emailCont" Type="nchar" MaxLength="20" />
-          <Property Name="area" Type="nchar" MaxLength="10" />
+          <Property Name="area" Type="nchar" MaxLength="40" />
         </EntityType>
         <EntityType Name="ConToTender">
           <Key>
             <PropertyRef Name="numConToTender" />
           </Key>
+          <Property Name="numConToTender" Type="int" Nullable="false" />
           <Property Name="numCon" Type="int" />
           <Property Name="numTender" Type="int" />
-          <Property Name="numConToTender" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Editors">
           <Key>
@@ -53,12 +53,20 @@
           </Key>
           <Property Name="numEditor" Type="int" Nullable="false" />
           <Property Name="passEditor" Type="int" />
-          <Property Name="nameEditor" Type="nchar" MaxLength="10" />
-          <Property Name="familyEditor" Type="nchar" MaxLength="10" />
-          <Property Name="addressEditor" Type="nchar" MaxLength="20" />
+          <Property Name="nameEditor" Type="nchar" MaxLength="40" />
+          <Property Name="familyEditor" Type="nchar" MaxLength="40" />
+          <Property Name="addressEditor" Type="nchar" MaxLength="40" />
           <Property Name="emailEditor" Type="nchar" MaxLength="20" />
           <Property Name="phoneEditor" Type="int" />
           <Property Name="tellOfiicEditor" Type="int" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="User" />
+          </Key>
+          <Property Name="User" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Password" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="numCont" Type="int" />
         </EntityType>
         <EntityType Name="ProducToTender">
           <Key>
@@ -67,11 +75,11 @@
           <Property Name="TenderDetailsID" Type="int" Nullable="false" />
           <Property Name="numProduct" Type="int" Nullable="false" />
           <Property Name="numTender" Type="int" Nullable="false" />
-          <Property Name="NameProduct" Type="nchar" MaxLength="10" />
+          <Property Name="NameProduct" Type="nchar" MaxLength="40" />
           <Property Name="Amount" Type="int" />
           <Property Name="PriceLimit" Type="float" />
           <Property Name="sizeRoomy" Type="float" />
-          <Property Name="weight" Type="int" />
+          <Property Name="weight" Type="float" />
           <Property Name="PriceUpdate" Type="float" />
           <Property Name="DateUpdate" Type="datetime" />
         </EntityType>
@@ -100,7 +108,7 @@
           <Property Name="numSuggestion" Type="int" Nullable="false" />
           <Property Name="numTender" Type="int" Nullable="false" />
           <Property Name="numCont" Type="int" />
-          <Property Name="priceToproduct" Type="int" />
+          <Property Name="priceToproduct" Type="float" />
           <Property Name="dataSuggestion" Type="datetime" />
           <Property Name="timeSuggestion" Type="time" Precision="7" />
           <Property Name="percentOff" Type="nchar" MaxLength="10" />
@@ -110,7 +118,7 @@
             <PropertyRef Name="numTender" />
           </Key>
           <Property Name="numTender" Type="int" Nullable="false" />
-          <Property Name="name" Type="nchar" MaxLength="10" />
+          <Property Name="name" Type="nchar" MaxLength="40" />
           <Property Name="numType" Type="int" />
           <Property Name="numEditor" Type="int" />
           <Property Name="codCategory" Type="int" />
@@ -136,6 +144,7 @@
           <EntitySet Name="Contestants" EntityType="Self.Contestants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConToTender" EntityType="Self.ConToTender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Editors" EntityType="Self.Editors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProducToTender" EntityType="Self.ProducToTender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SiteMenu" EntityType="Self.SiteMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SuggestionDetail" EntityType="Self.SuggestionDetail" Schema="dbo" store:Type="Tables" />
@@ -147,36 +156,82 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DbtenderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="DbtenderEntities1" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="ss" ReturnType="Collection(DbtenderModel.ss_Result)" />
-          <EntitySet Name="Categories" EntityType="DbtenderModel.Categories" />
-          <EntitySet Name="ClientMenu" EntityType="DbtenderModel.ClientMenu" />
-          <EntitySet Name="Contestants" EntityType="DbtenderModel.Contestants" />
-          <EntitySet Name="Editors" EntityType="DbtenderModel.Editors" />
-          <EntitySet Name="SiteMenu" EntityType="DbtenderModel.SiteMenu" />
-          <EntitySet Name="SuggestionDetail" EntityType="DbtenderModel.SuggestionDetail" />
-          <EntitySet Name="Suggestions" EntityType="DbtenderModel.Suggestions" />
-          <EntitySet Name="Tenders" EntityType="DbtenderModel.Tenders" />
-          <EntitySet Name="TypeTender" EntityType="DbtenderModel.TypeTender" />
-          <EntitySet Name="ProducToTender" EntityType="DbtenderModel.ProducToTender" />
-          <EntitySet Name="ConToTender" EntityType="DbtenderModel.ConToTender" />
-          </EntityContainer>
-        <ComplexType Name="ss_Result">
-          <Property Type="String" Name="name" Nullable="true" MaxLength="10" />
-          <Property Type="Int32" Name="numEditor" Nullable="true" />
-          <Property Type="String" Name="nameCategory" Nullable="true" MaxLength="20" />
-          <Property Type="Time" Name="timeSuggestion" Nullable="true" />
-          <Property Type="String" Name="NameProduct" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="nameCompanyCont" Nullable="true" MaxLength="10" />
-          <Property Type="Int32" Name="phoneCont" Nullable="true" />
-          <Property Type="Int32" Name="priceToProduct" Nullable="true" />
-        </ComplexType>
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="codeCategory" />
           </Key>
           <Property Name="codeCategory" Type="Int32" Nullable="false" />
-          <Property Name="nameCategory" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="nameCategory" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Contestants">
+          <Key>
+            <PropertyRef Name="numCon" />
+          </Key>
+          <Property Name="numCon" Type="Int32" Nullable="false" />
+          <Property Name="userNameCont" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="passCont" Type="Int32" />
+          <Property Name="nameCont" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="familyCont" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="nameCompanyCont" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="Seniority" Type="Int32" />
+          <Property Name="codeCategory" Type="Int32" />
+          <Property Name="addressCont" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="phoneCont" Type="Int32" />
+          <Property Name="tellOfiiceCont" Type="Int32" />
+          <Property Name="emailCont" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="area" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ConToTender">
+          <Key>
+            <PropertyRef Name="numConToTender" />
+          </Key>
+          <Property Name="numConToTender" Type="Int32" Nullable="false" />
+          <Property Name="numCon" Type="Int32" />
+          <Property Name="numTender" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Editors">
+          <Key>
+            <PropertyRef Name="numEditor" />
+          </Key>
+          <Property Name="numEditor" Type="Int32" Nullable="false" />
+          <Property Name="passEditor" Type="Int32" />
+          <Property Name="nameEditor" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="familyEditor" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="addressEditor" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="emailEditor" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="phoneEditor" Type="Int32" />
+          <Property Name="tellOfiicEditor" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TypeTender">
+          <Key>
+            <PropertyRef Name="numType" />
+          </Key>
+          <Property Name="numType" Type="Int32" Nullable="false" />
+          <Property Name="nameType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="DbtenderEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Categories" />
+          <EntitySet Name="Contestants" EntityType="Self.Contestants" />
+          <EntitySet Name="ConToTender" EntityType="Self.ConToTender" />
+          <EntitySet Name="Editors" EntityType="Self.Editors" />
+          <EntitySet Name="TypeTender" EntityType="Self.TypeTender" />
+          <EntitySet Name="SiteMenu" EntityType="DbtenderModel.SiteMenu" />
+          <EntitySet Name="ClientMenu" EntityType="DbtenderModel.ClientMenu" />
+          <FunctionImport Name="ss" ReturnType="Collection(DbtenderModel.ss_Result)" />
+          <EntitySet Name="Tenders" EntityType="DbtenderModel.Tenders" />
+          <EntitySet Name="SuggestionDetail" EntityType="DbtenderModel.SuggestionDetail" />
+          <EntitySet Name="Login" EntityType="DbtenderModel.Login" />
+          <EntitySet Name="Suggestions" EntityType="DbtenderModel.Suggestions" />
+          <EntitySet Name="ProducToTender" EntityType="DbtenderModel.ProducToTender" />
+        </EntityContainer>
+        <EntityType Name="SiteMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="ClientMenu">
           <Key>
@@ -187,73 +242,22 @@
           <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParentId" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="Contestants">
-          <Key>
-            <PropertyRef Name="numCon" />
-          </Key>
-          <Property Name="numCon" Type="Int32" Nullable="false" />
-          <Property Name="userNameCont" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="passCont" Type="Int32" />
-          <Property Name="nameCont" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="familyCont" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="nameCompanyCont" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Seniority" Type="Int32" />
-          <Property Name="codeCategory" Type="Int32" />
-          <Property Name="addressCont" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="phoneCont" Type="Int32" />
-          <Property Name="tellOfiiceCont" Type="Int32" />
-          <Property Name="emailCont" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="area" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Editors">
-          <Key>
-            <PropertyRef Name="numEditor" />
-          </Key>
-          <Property Name="numEditor" Type="Int32" Nullable="false" />
-          <Property Name="passEditor" Type="Int32" />
-          <Property Name="nameEditor" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="familyEditor" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="addressEditor" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="emailEditor" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="phoneEditor" Type="Int32" />
-          <Property Name="tellOfiicEditor" Type="Int32" />
-        </EntityType>
-        <EntityType Name="SiteMenu">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ParentId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="SuggestionDetail">
-          <Key>
-            <PropertyRef Name="numDetailSuggestion" />
-          </Key>
-          <Property Name="numDetailSuggestion" Type="Int32" Nullable="false" />
-          <Property Name="numsuggest" Type="Int32" />
-          <Property Name="numproduct" Type="Int32" />
-          <Property Name="priceToProduct" Type="Int32" />
-        </EntityType>
-        <EntityType Name="Suggestions">
-          <Key>
-            <PropertyRef Name="numSuggestion" />
-          </Key>
-          <Property Name="numSuggestion" Type="Int32" Nullable="false" />
-          <Property Name="numTender" Type="Int32" Nullable="false" />
-          <Property Name="numCont" Type="Int32" />
-          <Property Name="priceToproduct" Type="Int32" />
-          <Property Name="dataSuggestion" Type="DateTime" Precision="3" />
-          <Property Name="timeSuggestion" Type="Time" Precision="7" />
-          <Property Name="percentOff" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-        </EntityType>
+        <ComplexType Name="ss_Result">
+          <Property Type="String" Name="name" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="numEditor" Nullable="true" />
+          <Property Type="String" Name="nameCategory" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="timeSuggestion" Nullable="true" />
+          <Property Type="String" Name="NameProduct" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="nameCompanyCont" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="phoneCont" Nullable="true" />
+          <Property Type="Int32" Name="priceToProduct" Nullable="true" />
+        </ComplexType>
         <EntityType Name="Tenders">
           <Key>
             <PropertyRef Name="numTender" />
           </Key>
           <Property Name="numTender" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
           <Property Name="numType" Type="Int32" />
           <Property Name="numEditor" Type="Int32" />
           <Property Name="codCategory" Type="Int32" />
@@ -266,12 +270,34 @@
           <Property Name="time_update" Type="Time" Precision="7" />
           <Property Name="winner" Type="Int32" />
         </EntityType>
-        <EntityType Name="TypeTender">
+        <EntityType Name="SuggestionDetail">
           <Key>
-            <PropertyRef Name="numType" />
+            <PropertyRef Name="numDetailSuggestion" />
           </Key>
-          <Property Name="numType" Type="Int32" Nullable="false" />
-          <Property Name="nameType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="numDetailSuggestion" Type="Int32" Nullable="false" />
+          <Property Name="numsuggest" Type="Int32" />
+          <Property Name="numproduct" Type="Int32" />
+          <Property Name="priceToProduct" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="User" />
+          </Key>
+          <Property Name="User" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="numCont" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Suggestions">
+          <Key>
+            <PropertyRef Name="numSuggestion" />
+          </Key>
+          <Property Name="numSuggestion" Type="Int32" Nullable="false" />
+          <Property Name="numTender" Type="Int32" Nullable="false" />
+          <Property Name="numCont" Type="Int32" />
+          <Property Name="priceToproduct" Type="Double" />
+          <Property Name="dataSuggestion" Type="DateTime" Precision="3" />
+          <Property Name="timeSuggestion" Type="Time" Precision="7" />
+          <Property Name="percentOff" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="ProducToTender">
           <Key>
@@ -280,23 +306,15 @@
           <Property Name="TenderDetailsID" Type="Int32" Nullable="false" />
           <Property Name="numProduct" Type="Int32" Nullable="false" />
           <Property Name="numTender" Type="Int32" Nullable="false" />
-          <Property Name="NameProduct" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="NameProduct" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
           <Property Name="Amount" Type="Int32" />
           <Property Name="PriceLimit" Type="Double" />
           <Property Name="sizeRoomy" Type="Double" />
-          <Property Name="weight" Type="Int32" />
+          <Property Name="weight" Type="Double" />
           <Property Name="PriceUpdate" Type="Double" />
           <Property Name="DateUpdate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="ConToTender">
-          <Key>
-            <PropertyRef Name="numConToTender" />
-          </Key>
-          <Property Name="numCon" Type="Int32" />
-          <Property Name="numTender" Type="Int32" />
-          <Property Name="numConToTender" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -305,51 +323,58 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="DbtenderModel.Categories">
               <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="nameCategory" ColumnName="nameCategory" />
                 <ScalarProperty Name="codeCategory" ColumnName="codeCategory" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ClientMenu">
-            <EntityTypeMapping TypeName="DbtenderModel.ClientMenu">
-              <MappingFragment StoreEntitySet="ClientMenu">
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nameCategory" ColumnName="nameCategory" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Contestants">
             <EntityTypeMapping TypeName="DbtenderModel.Contestants">
               <MappingFragment StoreEntitySet="Contestants">
-                <ScalarProperty Name="area" ColumnName="area" />
-                <ScalarProperty Name="emailCont" ColumnName="emailCont" />
-                <ScalarProperty Name="tellOfiiceCont" ColumnName="tellOfiiceCont" />
-                <ScalarProperty Name="phoneCont" ColumnName="phoneCont" />
-                <ScalarProperty Name="addressCont" ColumnName="addressCont" />
-                <ScalarProperty Name="codeCategory" ColumnName="codeCategory" />
-                <ScalarProperty Name="Seniority" ColumnName="Seniority" />
-                <ScalarProperty Name="nameCompanyCont" ColumnName="nameCompanyCont" />
-                <ScalarProperty Name="familyCont" ColumnName="familyCont" />
-                <ScalarProperty Name="nameCont" ColumnName="nameCont" />
-                <ScalarProperty Name="passCont" ColumnName="passCont" />
-                <ScalarProperty Name="userNameCont" ColumnName="userNameCont" />
                 <ScalarProperty Name="numCon" ColumnName="numCon" />
+                <ScalarProperty Name="userNameCont" ColumnName="userNameCont" />
+                <ScalarProperty Name="passCont" ColumnName="passCont" />
+                <ScalarProperty Name="nameCont" ColumnName="nameCont" />
+                <ScalarProperty Name="familyCont" ColumnName="familyCont" />
+                <ScalarProperty Name="nameCompanyCont" ColumnName="nameCompanyCont" />
+                <ScalarProperty Name="Seniority" ColumnName="Seniority" />
+                <ScalarProperty Name="codeCategory" ColumnName="codeCategory" />
+                <ScalarProperty Name="addressCont" ColumnName="addressCont" />
+                <ScalarProperty Name="phoneCont" ColumnName="phoneCont" />
+                <ScalarProperty Name="tellOfiiceCont" ColumnName="tellOfiiceCont" />
+                <ScalarProperty Name="emailCont" ColumnName="emailCont" />
+                <ScalarProperty Name="area" ColumnName="area" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConToTender">
+            <EntityTypeMapping TypeName="DbtenderModel.ConToTender">
+              <MappingFragment StoreEntitySet="ConToTender">
+                <ScalarProperty Name="numConToTender" ColumnName="numConToTender" />
+                <ScalarProperty Name="numCon" ColumnName="numCon" />
+                <ScalarProperty Name="numTender" ColumnName="numTender" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Editors">
             <EntityTypeMapping TypeName="DbtenderModel.Editors">
               <MappingFragment StoreEntitySet="Editors">
-                <ScalarProperty Name="tellOfiicEditor" ColumnName="tellOfiicEditor" />
-                <ScalarProperty Name="phoneEditor" ColumnName="phoneEditor" />
-                <ScalarProperty Name="emailEditor" ColumnName="emailEditor" />
-                <ScalarProperty Name="addressEditor" ColumnName="addressEditor" />
-                <ScalarProperty Name="familyEditor" ColumnName="familyEditor" />
-                <ScalarProperty Name="nameEditor" ColumnName="nameEditor" />
-                <ScalarProperty Name="passEditor" ColumnName="passEditor" />
                 <ScalarProperty Name="numEditor" ColumnName="numEditor" />
+                <ScalarProperty Name="passEditor" ColumnName="passEditor" />
+                <ScalarProperty Name="nameEditor" ColumnName="nameEditor" />
+                <ScalarProperty Name="familyEditor" ColumnName="familyEditor" />
+                <ScalarProperty Name="addressEditor" ColumnName="addressEditor" />
+                <ScalarProperty Name="emailEditor" ColumnName="emailEditor" />
+                <ScalarProperty Name="phoneEditor" ColumnName="phoneEditor" />
+                <ScalarProperty Name="tellOfiicEditor" ColumnName="tellOfiicEditor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeTender">
+            <EntityTypeMapping TypeName="DbtenderModel.TypeTender">
+              <MappingFragment StoreEntitySet="TypeTender">
+                <ScalarProperty Name="numType" ColumnName="numType" />
+                <ScalarProperty Name="nameType" ColumnName="nameType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -363,26 +388,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SuggestionDetail">
-            <EntityTypeMapping TypeName="DbtenderModel.SuggestionDetail">
-              <MappingFragment StoreEntitySet="SuggestionDetail">
-                <ScalarProperty Name="priceToProduct" ColumnName="priceToProduct" />
-                <ScalarProperty Name="numproduct" ColumnName="numproduct" />
-                <ScalarProperty Name="numsuggest" ColumnName="numsuggest" />
-                <ScalarProperty Name="numDetailSuggestion" ColumnName="numDetailSuggestion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Suggestions">
-            <EntityTypeMapping TypeName="DbtenderModel.Suggestions">
-              <MappingFragment StoreEntitySet="Suggestions">
-                <ScalarProperty Name="percentOff" ColumnName="percentOff" />
-                <ScalarProperty Name="timeSuggestion" ColumnName="timeSuggestion" />
-                <ScalarProperty Name="dataSuggestion" ColumnName="dataSuggestion" />
-                <ScalarProperty Name="priceToproduct" ColumnName="priceToproduct" />
-                <ScalarProperty Name="numCont" ColumnName="numCont" />
-                <ScalarProperty Name="numTender" ColumnName="numTender" />
-                <ScalarProperty Name="numSuggestion" ColumnName="numSuggestion" />
+          <EntitySetMapping Name="ClientMenu">
+            <EntityTypeMapping TypeName="DbtenderModel.ClientMenu">
+              <MappingFragment StoreEntitySet="ClientMenu">
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -405,11 +417,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TypeTender">
-            <EntityTypeMapping TypeName="DbtenderModel.TypeTender">
-              <MappingFragment StoreEntitySet="TypeTender">
-                <ScalarProperty Name="nameType" ColumnName="nameType" />
-                <ScalarProperty Name="numType" ColumnName="numType" />
+          <EntitySetMapping Name="SuggestionDetail">
+            <EntityTypeMapping TypeName="DbtenderModel.SuggestionDetail">
+              <MappingFragment StoreEntitySet="SuggestionDetail">
+                <ScalarProperty Name="priceToProduct" ColumnName="priceToProduct" />
+                <ScalarProperty Name="numproduct" ColumnName="numproduct" />
+                <ScalarProperty Name="numsuggest" ColumnName="numsuggest" />
+                <ScalarProperty Name="numDetailSuggestion" ColumnName="numDetailSuggestion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Login">
+            <EntityTypeMapping TypeName="DbtenderModel.Login">
+              <MappingFragment StoreEntitySet="Login">
+                <ScalarProperty Name="numCont" ColumnName="numCont" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="User" ColumnName="User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suggestions">
+            <EntityTypeMapping TypeName="DbtenderModel.Suggestions">
+              <MappingFragment StoreEntitySet="Suggestions">
+                <ScalarProperty Name="percentOff" ColumnName="percentOff" />
+                <ScalarProperty Name="timeSuggestion" ColumnName="timeSuggestion" />
+                <ScalarProperty Name="dataSuggestion" ColumnName="dataSuggestion" />
+                <ScalarProperty Name="priceToproduct" ColumnName="priceToproduct" />
+                <ScalarProperty Name="numCont" ColumnName="numCont" />
+                <ScalarProperty Name="numTender" ColumnName="numTender" />
+                <ScalarProperty Name="numSuggestion" ColumnName="numSuggestion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -426,15 +462,6 @@
                 <ScalarProperty Name="numTender" ColumnName="numTender" />
                 <ScalarProperty Name="numProduct" ColumnName="numProduct" />
                 <ScalarProperty Name="TenderDetailsID" ColumnName="TenderDetailsID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ConToTender">
-            <EntityTypeMapping TypeName="DbtenderModel.ConToTender">
-              <MappingFragment StoreEntitySet="ConToTender">
-                <ScalarProperty Name="numConToTender" ColumnName="numConToTender" />
-                <ScalarProperty Name="numTender" ColumnName="numTender" />
-                <ScalarProperty Name="numCon" ColumnName="numCon" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

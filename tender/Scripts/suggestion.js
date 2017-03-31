@@ -1,5 +1,4 @@
-﻿/// <reference path="suggestion.js" />
-var url = null;
+﻿var url = null;
 function LoadDTender() {
     if (!url) {
         url = window.location.href;

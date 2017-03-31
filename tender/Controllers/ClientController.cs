@@ -26,15 +26,13 @@ namespace tender.Controllers
             //int id = Convert.ToInt32(Request.QueryString["id"]);
             DbtenderEntities1 DB = new DbtenderEntities1();
 
-            var result = from c in DB.Categories
-                         join t in DB.Tenders on c.codeCategory equals t.codCategory
+            var result = from t in DB.Tenders
+                         join c in DB.Categories on t.codCategory equals c.codeCategory
                          join s in DB.Suggestions on t.numTender equals s.numTender
                          join co in DB.Contestants on s.numCont equals co.numCon
-                         join p in DB.ProducToTender on t.numTender equals p.numTender
-                         join s1 in DB.SuggestionDetail on p.numProduct equals s1.numproduct
-                         where t.numTender == numTender
-                         orderby p.NameProduct
-                         select new { t.name, t.numEditor, c.nameCategory, s.timeSuggestion, p.NameProduct, co.nameCompanyCont, co.phoneCont, s1.priceToProduct };
+                           where t.numTender == numTender
+                         orderby s.numSuggestion
+                         select new { t.name, t.numEditor, c.nameCategory, s.dataSuggestion, co.nameCompanyCont, co.phoneCont, s.priceToproduct,s.numSuggestion };
 
 
             //return View();
@@ -42,7 +40,7 @@ namespace tender.Controllers
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
 
         }
-     
+
         public JsonResult GetSiteMenus()
         {
             using (DbtenderEntities1 dc = new DbtenderEntities1())
@@ -82,23 +80,39 @@ namespace tender.Controllers
                          join t in DB.Tenders on c.codeCategory equals t.codCategory
                          join s in DB.TypeTender on t.numType equals s.numType
                          join co in DB.Editors on t.numEditor equals co.numEditor
-                         select new { t.numTender, t.name, t.typeAcquire, co.nameEditor, c.nameCategory, t.till, s.nameType,t.status };
+                         where (t.status).Contains("פעיל")
+                         select new { t.numTender, t.name, t.typeAcquire, co.nameEditor, c.nameCategory, t.till, s.nameType, t.status ,t.numType};
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
 
         }
 
 
+        public ActionResult getDetail2()
+        {
+
+            //if (Request.QueryString["id"] == null)
+            //    return View();
+            //int id = Convert.ToInt32(Request.QueryString["id"]);
+            DbtenderEntities1 DB = new DbtenderEntities1();
+
+            var result = from c in DB.Categories
+                         join t in DB.Tenders on c.codeCategory equals t.codCategory
+                         join s in DB.TypeTender on t.numType equals s.numType
+                         join co in DB.Editors on t.numEditor equals co.numEditor
+                          select new { t.numTender, t.name, t.typeAcquire, co.nameEditor, c.nameCategory, t.till, s.nameType, t.status, t.numType };
+            return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+
+        }
 
         [HttpPost]
         public JsonResult save(Contestants con)
         {
             bool status = false;
             var isValidModel = TryUpdateModel(con);
-            if (isValidModel)
-            {
+           
                 using (DbtenderEntities1 DB = new DbtenderEntities1())
                 {
-                   
+
 
                     DB.Contestants.Add(con);
                     try
@@ -111,7 +125,7 @@ namespace tender.Controllers
 
                     status = true;
                 }
-            }
+            
             return new JsonResult { Data = new { status = status } };
         }
         public ActionResult getNumOfCon()
@@ -121,10 +135,22 @@ namespace tender.Controllers
 
             List<Contestants> result = DB.Contestants.ToList();
             num = result.Count + 1;
-           
+
             return Json(num, JsonRequestBehavior.AllowGet);
 
         }
+
+        //public ActionResult getLastTender()
+        //{
+        //    int num = 0;
+        //    DbtenderEntities1 DB = new DbtenderEntities1();
+
+        //    List<Contestants> result = DB.Contestants.ToList();
+        //    num = result.Count + 1;
+
+        //    return Json(num, JsonRequestBehavior.AllowGet);
+
+        //}
 
     }
 }

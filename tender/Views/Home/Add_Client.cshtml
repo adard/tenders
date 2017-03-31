@@ -20,6 +20,7 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in SiteMenu | filter:{ParentIf : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in SiteMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:34.15%"><img src="~/Images/logo1.png" width="100" /></li>
         </ul>
     </div>
 </div>
@@ -29,7 +30,7 @@
 @* add js here for angular app *@
 @section Scripts{
     <script src="~/Scripts/MyApp.js"></script>
-   
+
 }
 
 
@@ -45,7 +46,7 @@
                 <td>
 
                     <input disabled type="text" id="numCon" class="form-control" />
-                    
+
                 </td>
                 <td>First Name </td>
                 <td>
@@ -102,7 +103,7 @@
                 </td>
                 <td>Area </td>
                 <td>
-                    <select id="area" class="form-control" >
+                    <select id="area" class="form-control">
                         <option>Select</option>
                         <option>מרכז</option>
                         <option>צפון</option>
@@ -115,16 +116,16 @@
     </div>
     <table>
 
-    <tr class="mycontainer" id="mainrow">
+        <tr class="mycontainer" id="mainrow">
 
-        <td>
-            <input type="button" id="add" value="add" style="width:80px" class="btn btn-success" />
-        </td>
-    </tr>
-        </table>
-     
+            <td>
+                <input type="button" id="add" value="add" style="width:80px" class="btn btn-success" />
+            </td>
+        </tr>
+    </table>
 
-    </div>
+
+</div>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>

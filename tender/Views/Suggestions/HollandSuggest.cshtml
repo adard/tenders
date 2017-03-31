@@ -23,6 +23,7 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in ClientMenu | filter:{ParentId : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in ClientMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:70%.15%"><img src="~/Images/logo1.png" width="100" /></li>
         </ul>
     </div>
 </div>
@@ -34,8 +35,7 @@
     <script src="~/Scripts/appClient.js"></script>
 }
 
-<iframe src="~/HtmlPage1.html?time=8" scrolling="no" style="width:700px"></iframe>
-
+ 
 
 
 <link href="~/css/navMenu.css" rel="stylesheet" />
@@ -80,4 +80,6 @@
     //setTimeout(function()
     //{document.getElementById('submit2').removeAttribute('href');}, 1);
 </script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.css" rel="stylesheet" />

@@ -203,6 +203,7 @@
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\conToTenderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SuggestionsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -225,6 +226,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Login.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -290,7 +294,9 @@
     <Content Include="css\bootstrap-datetimepicker.min.css" />
     <Content Include="css\ClientMenu.css" />
     <Content Include="css\flipclock.css" />
+    <Content Include="css\homeStyle.css" />
     <Content Include="css\jquery-ui.css" />
+    <Content Include="css\Login.css" />
     <Content Include="css\navMenu.css" />
     <Content Include="css\table.css" />
     <Content Include="favicon.ico" />
@@ -302,9 +308,13 @@
     <Content Include="HtmlPage1.html" />
     <Content Include="Images\arrow.png" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\logo1.png" />
+    <Content Include="Images\logo2.jpg" />
+    <Content Include="Images\logo3.png" />
     <Content Include="Images\next.jpg" />
     <Content Include="Images\search.png" />
     <Content Include="Images\search1.png" />
+    <Content Include="Images\לוגו.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -337,13 +347,16 @@
     <Content Include="bin\roslyn\roslyn\Microsoft.CSharp.Core.targets" />
     <Content Include="bin\roslyn\roslyn\Microsoft.VisualBasic.Core.targets" />
     <Content Include="bin\roslyn\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="css\Login.scss" />
     <None Include="Properties\PublishProfiles\555555.pubxml" />
+    <None Include="Properties\PublishProfiles\jj.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ClientSuggest.js" />
+    <Content Include="Scripts\conTo.js" />
     <Content Include="Scripts\conToTender.js" />
     <Content Include="Scripts\Detail.js" />
     <Content Include="Scripts\detail2.js" />
@@ -352,6 +365,7 @@
     <Content Include="Scripts\flipclock.js" />
     <Content Include="Scripts\flipclock.min.js" />
     <Content Include="Scripts\HollandSuggestions.js" />
+    <Content Include="Scripts\homeStyle.js" />
     <Content Include="Scripts\JavaScript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -362,8 +376,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\logEditor.js" />
+    <Content Include="Scripts\Login.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\MyApp.js" />
+    <Content Include="Scripts\MyClock.js" />
+    <Content Include="Scripts\myScript2.js" />
     <Content Include="Scripts\myScripts.js" />
     <Content Include="Scripts\MySuggestion.js" />
     <Content Include="Scripts\pickerjs.js" />
@@ -372,6 +390,7 @@
     <Content Include="Scripts\suggestion.js" />
     <Content Include="Scripts\Suggestions.js" />
     <Content Include="Scripts\UpdateTender.js" />
+    <Content Include="Scripts\winner.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -426,6 +445,10 @@
     <Content Include="Views\Home\tempdateTime.cshtml" />
     <Content Include="Views\Home\test.cshtml" />
     <Content Include="Views\Home\temp.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Home\homeView.cshtml" />
+    <Content Include="Views\Home\winner.cshtml" />
+    <Content Include="Views\Login\AskAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

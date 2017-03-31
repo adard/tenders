@@ -1,5 +1,4 @@
 ﻿
-
 <div ng-app="MyApp">
     <div ng-controller="menuController">
         @* Here first of all we will create a ng-template *@
@@ -15,6 +14,8 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in SiteMenu | filter:{ParentIf : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in SiteMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:34.15%"><img src="~/Images/logo1.png" width="100" /></li>
+
         </ul>
     </div>
 </div>
@@ -75,10 +76,10 @@
             <tr>
                 <td>typem tender</td>
                 <td>
-                    <select id="typeTender" class="form-control" @*onselect="LoadType(this)"*@>
+                    <select id="typeTender" class="form-control" onselect="LoadType()" *@>
                         <option>Select</option>
                     </select>
-                    <span class="error">Select type Tender</span>
+                    <span class="error" value="type"> Select type Tender</span>
                 </td>
                 <td>typem acquire</td>
 
@@ -97,44 +98,44 @@
                 <td>
                     <select id="status" class="form-control" @*onselect="LoadType(this)"*@>
                         <option>Select</option>
-                        <option>טרם</option>
-                        <option>פעיל</option>
-                        <option>סגור</option>
+                        <option value="1">טרם</option>
+                        <option value="2">פעיל</option>
                     </select>
                     <span class="error">Select type Tender</span>
                 </td>
-                <td>Description</td>
-                <td colspan="3">
-                    <textarea id="description" class="form-control"></textarea>
-                </td>
-            </tr>
-            <tr>
+                @*<td>Description</td>
+                    <td colspan="3">
+                        <textarea id="description" class="form-control"></textarea>
+                    </td>*@
+
                 <td>from</td>
                 <td>
                     <input type="date" id="from" class="form-control" placeholder="yyyy-MM-dd" min="2016-01-01" max="2019-12-31" required />
                     <span class="error">Valid from required (ex: MM-dd-yyyy)</span>
                 </td>
-                <td>till</td>
-                <td>
-                    <input type="date" id="till" class="form-control" placeholder="yyyy-MM-dd" min="2016-01-01" max="2019-12-31" required />
-                    <span class="error">Valid till required (ex: MM-dd-yyyy)</span>
-                </td>
             </tr>
             <tr>
-                <td>hour strat</td>
+                <td>time Update</td>
+
                 <td>
+
+                    <span class="error">The Time is not valid</span>
+
+                    @{
+                        Html.RenderPartial("~/Views/timePicker.cshtml", new ViewDataDictionary { { "id", "time_update" } });
+                    }
+                </td>
+                <td>hour Start</td>
+                <td>
+                    <span class="error">Time is not valid </span>
+
                     @{
                         Html.RenderPartial("~/Views/timePicker.cshtml", new ViewDataDictionary { { "id", "hourStart" } });
                     }
                 </td>
 
-                <td>hour strat</td>
-                <td>
-                    @{
-                        Html.RenderPartial("~/Views/timePicker.cshtml", new ViewDataDictionary { { "id", "hourFinish" } });
-                    }
-                </td>
-            </tr>
+
+
         </table>
     </div>
     <div class="details">
@@ -148,17 +149,19 @@
                 <td>Quantity</td>
                 <td>size roomy</td>
                 <td>max/min price</td>
+                <td>Weight</td>
+
                 <td>&nbsp;</td>
             </tr>
             <tr class="mycontainer" id="mainrow">
                 <td>
-                    <label  id="numProduct" class="numProduct">1</label>
+                    <label id="numProduct" class="numProduct">1</label>
                 </td>
                 <td>
-                    <input id="product" type="text" class="product form-control" value="" />
+                    <input id="product" type="text" class="product form-control" />
                 </td>
                 <td>
-                    <input type="number" min="0" max="99" id="quantity" class="quantity form-control" value="" />
+                    <input type="number" min="0" id="quantity" class="quantity form-control" value="" />
                     <span class="error">Valid quantity required</span>
                 </td>
                 <td>
@@ -168,6 +171,10 @@
                 <td>
                     <input type="text" id="price" class="price form-control" value="" />
                     <span class="error">Valid price required</span>
+                </td>
+                <td>
+                    <input type="number" step="0.1" min="0" max="1" " id="weight" class="weight form-control" value="" />
+                    <span class="error">Valid weight required</span>
                 </td>
                 <td>
                     <input type="button" id="add" value="add" style="width:80px" class="btn btn-success" />
@@ -203,4 +210,5 @@
         background-color: rgba(255,0,0,0.35);
     }
 </style>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.css" rel="stylesheet" />

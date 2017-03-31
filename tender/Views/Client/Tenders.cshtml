@@ -21,6 +21,7 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in ClientMenu | filter:{ParentId : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in ClientMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:70%%"><img src="~/Images/logo1.png" width="100" /></li>
         </ul>
     </div>
 </div>
@@ -32,9 +33,12 @@
     <script src="~/Scripts/appClient.js"></script>
 }
 
-<link href="~/css/table.css" rel="stylesheet" />
-
-<h2>מכרזים</h2>
+<header style="top:0px;position:relative; text-align:right">
+    <img src="~/Images/search1.png" style="position: inherit;left: 4px;top: -1px; height: 29px;" />
+    <input style="padding:5px 10px; border:none" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Number.." title="Type in a name">
+    <link href="~/css/table.css" rel="stylesheet" />
+</header>
+<h2>Tenders</h2>
 <div>
 
     <table class="table table-responsive" id="table1">

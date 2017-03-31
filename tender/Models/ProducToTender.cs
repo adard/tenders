@@ -21,7 +21,7 @@ namespace tender.Models
         public Nullable<int> Amount { get; set; }
         public Nullable<double> PriceLimit { get; set; }
         public Nullable<double> sizeRoomy { get; set; }
-        public Nullable<int> weight { get; set; }
+        public Nullable<double> weight { get; set; }
         public Nullable<double> PriceUpdate { get; set; }
         public Nullable<System.DateTime> DateUpdate { get; set; }
     }

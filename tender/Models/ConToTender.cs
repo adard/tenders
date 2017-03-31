@@ -14,8 +14,8 @@ namespace tender.Models
     
     public partial class ConToTender
     {
+        public int numConToTender { get; set; }
         public Nullable<int> numCon { get; set; }
         public Nullable<int> numTender { get; set; }
-        public int numConToTender { get; set; }
     }
 }

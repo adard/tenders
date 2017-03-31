@@ -28,16 +28,17 @@ namespace tender.Models
         }
     
         public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<ClientMenu> ClientMenu { get; set; }
         public virtual DbSet<Contestants> Contestants { get; set; }
-        public virtual DbSet<Editors> Editors { get; set; }
-        public virtual DbSet<SiteMenu> SiteMenu { get; set; }
-        public virtual DbSet<SuggestionDetail> SuggestionDetail { get; set; }
-        public virtual DbSet<Suggestions> Suggestions { get; set; }
-        public virtual DbSet<Tenders> Tenders { get; set; }
-        public virtual DbSet<TypeTender> TypeTender { get; set; }
-        public virtual DbSet<ProducToTender> ProducToTender { get; set; }
         public virtual DbSet<ConToTender> ConToTender { get; set; }
+        public virtual DbSet<Editors> Editors { get; set; }
+        public virtual DbSet<TypeTender> TypeTender { get; set; }
+        public virtual DbSet<SiteMenu> SiteMenu { get; set; }
+        public virtual DbSet<ClientMenu> ClientMenu { get; set; }
+        public virtual DbSet<Tenders> Tenders { get; set; }
+        public virtual DbSet<SuggestionDetail> SuggestionDetail { get; set; }
+        public virtual DbSet<Login> Login { get; set; }
+        public virtual DbSet<Suggestions> Suggestions { get; set; }
+        public virtual DbSet<ProducToTender> ProducToTender { get; set; }
     
         public virtual ObjectResult<ss_Result> ss()
         {

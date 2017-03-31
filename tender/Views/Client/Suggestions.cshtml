@@ -20,6 +20,7 @@
             @* Here we will load only top level menu *@
             @*<li ng-repeat="menu in ClientMenu | filter:{ParentId : 0}" ng-include="'treeMenu'"></li>*@
             <li ng-repeat="menu in ClientMenu | filter:{ParentId : 0} : true" ng-include="'treeMenu'"></li>
+            <li style="margin-left:70%"><img src="~/Images/logo1.png" width="100" /></li>
         </ul>
     </div>
 </div>
@@ -30,8 +31,11 @@
 @section Scripts{
     <script src="~/Scripts/appClient.js"></script>
 }
-<link href="~/css/table.css" rel="stylesheet" />
-
+<header style="top:0px;position:relative; text-align:right">
+    <img src="~/Images/search1.png" style="position: inherit;left: 4px;top: -1px; height: 29px;" />
+    <input style="padding:5px 10px; border:none" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Number.." title="Type in a name">
+    <link href="~/css/table.css" rel="stylesheet" />
+</header>
 
 @*<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>*@
@@ -53,20 +57,22 @@
 </head>
 
 
-<h2>ראה הצעות עבור מכרז נבחר:</h2>
+<h2></h2>
 <div>
 
     <table class="table table-responsive" id="t01">
-
+ 
 
         <tr>
-            <td>name</td>
-            <td>name of Category</td>
-            <td>time Suggestion</td>
-            <td>Name of the Product</td>
-            <td>name of the Company</td>
-            <td>phoneCont</td>
-            <td>&nbsp;</td>
+            <td>Num Suggestion</td>
+            <td>Tender Name</td>
+            <td>Name of Category</td>
+            <td>Name of the Company</td>
+            <td>Tel</td>
+            <td>Price</td>
+            <td>Suggestion Date</td>
+
+       
         </tr>
         <tr class="mycontainer" id="mainrow"></tr>
 
@@ -92,3 +98,6 @@
 <script type="text/javascript"
         src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
 </script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />

@@ -31,7 +31,7 @@ namespace tender.Controllers
         public JsonResult save(List<ConToTender> ct)
         {
             bool status = false;
-            
+
 
             var isValidModel = TryUpdateModel(ct);
             if (isValidModel)
@@ -43,7 +43,7 @@ namespace tender.Controllers
                         DB.ConToTender.Add(item);
                     }
 
-                   
+
                     try
                     {
                         DB.SaveChanges();
